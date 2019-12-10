@@ -18,7 +18,7 @@ This is the repo for Yin's Python Projects offered by Mr. Yin at Yin's Capital. 
 
 Having a sound long-term investment strategy as a part of a comprehensive money management plan helps investors keep their focus on their personal benchmarks rather than meaningless market benchmarks or indexes, enabling them to ignore short-term market events. It is about personal wealth improvement.
 
-- As the first section discussed on this site, Yin's Timer is always going to be the frontier pipelines of our products. We are proud to present a beta version of python notebook [here](https://github.com/yiqiao-yin/Yins_Python_Projects/tree/master/scripts).
+- As the first section discussed on this site, Yin's Timer is always going to be the frontier pipelines of our products. We are proud to present a beta version of python notebook [here](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_EDA_YinsTimer.ipynb).
 
 ## Data Structures
 
