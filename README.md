@@ -20,6 +20,8 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - As the first section discussed on this site, Yin's Timer is always going to be the frontier pipelines of our products. We are proud to present a beta version of python notebook [here](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_EDA_YinsTimer.ipynb).
 
+- The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_Markowitz_Portfolio.ipynb).
+
 ## Data Structures
 
 Data Structures are the key part of many computer algorithms as they allow the programmers to do data management in an efficient way. A right selection of data structure can enhance the efficiency of computer program or algorithm in a better way.
