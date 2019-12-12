@@ -3,7 +3,7 @@
 [![YinsPythonProjects](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://yinscapital.com/research/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-This is the repo for Yin's Python Projects offered by Mr. Yin at Yin's Capital. The site stores sample *.py* scripts and python notebooks for software development, statistical analysis, and machine learning applications. 
+This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's Capital](www.YinsCapital.com). The site stores sample *.py* scripts and python notebooks for software development, statistical analysis, and machine learning applications. 
 
 <p align="center">
   <img width="800" src="https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/figs/main.gif">
@@ -13,6 +13,30 @@ This is the repo for Yin's Python Projects offered by Mr. Yin at Yin's Capital. 
 - Copyright © 2010 – 2019 Yiqiao Yin
 - Contact: Yiqiao Yin
 - Email: Yiqiao.Yin@YinsCapital.com
+
+## What Is Special Here
+
+I pursue each and every one of my data science, machine learning, or AI projects using the following procedures. There are two phases. Phase I is about end-to-end research and due dilligence. Phase II is about product management and software maintainance as well as client relationship. In brief, they are listed out in the following.
+
+Phase I: 
+- 1. Develops operational procedures for collection, editing, verification, and management of statistical data. 
+- 2. Develops and implements relevant statistical programs to incorporate data from multiple projects. 
+- 3. Designs comprehensive relational databases with working knowledge of the scientific applications impacting on the data analysis and reporting. 
+- 4. Assists faculty and other research professionals with the formulation and description of appropriate statistical methods. 
+- 5. Evaluates research studies and recommends statistical procedures to analyze the data. 
+- 6. Carries out comprehensive statistical analysis for a broad spectrum of types of data and types of studies. 
+- 7. Integrates the research methodologies of multiple projects into bio-statistical analyses. 
+
+Phase II: 
+- 8. Prepares reports summarizing the analysis of research data, interpreting the findings and providing conclusions and recommendations. 
+- 9. Presents talks, seminars, or other oral presentations on the methodology and analysis used in scientific studies. 
+- 10. Assists investigators in preparation of research grant applications by writing research methods sections pertaining to acquisition, analysis, relevance and validity of data. 
+- 11. Participates in the preparation of manuscripts that are submitted for peer reviewed publication. 
+- 12. May supervise and provide training for lower level or less experienced employees. 
+- 13. May perform other duties as assigned.
+- 14. Develop statistical packages for clients, debug, product management.
+
+From my experience, the above checklist is important to evaluate for oneself once a while to ensure that proper steps are taken to execute data science, machine learning, and AI projects in an appropriate and efficient manner.
 
 ## Money Management
 
