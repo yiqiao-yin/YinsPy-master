@@ -30,4 +30,12 @@ Data Structures are the key part of many computer algorithms as they allow the p
 
 - An important component in data structure is navigation through different formats of data and information extraction. I actually had an interview about this following question (source is provided by [HackerRank](https://www.hackerrank.com/domains/regex?filters%5Bsubdomains%5D%5B%5D=re-applications)): this problem is a derivation of the problems provided by HackerRank (since it is an encrypted interview question, I can't copy/paste here, but I took the idea and provide my own replication of the problem) [Validate and Report IP Address](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_DS_Validate_Report_IP_Address.ipynb)
 
+## Machine Learning
+
+Machine Learning is another big component of Yin's Capital product. 
+
+- One should always start with vanilla regression problem to start the journey of machine learning. This is why I start with a simply python notebook of [Housing Price Analysis](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_SimpleLinearRegression_Housing.ipynb).
+
+- As data gets bigger, we can start to see how multiple variables together impose an impact on dependent variable. It is not horribly difficult to make the transition from simple linear regresssion to multivariate linear regression problem. A data science project can be carried out to investigate investment startup profits using multivariate regression model which is [here](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_MultiLinearRegression_StartInvest.ipynb).
+
 
