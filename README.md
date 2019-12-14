@@ -19,6 +19,7 @@ This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's 
 I pursue each and every one of my data science, machine learning, or AI projects using the following procedures. There are two phases. Phase I is about end-to-end research and due dilligence. Phase II is about product management and software maintainance as well as client relationship. In brief, they are listed out in the following.
 
 Phase I: 
+
 1. Develops operational procedures for collection, editing, verification, and management of statistical data. 
 2. Develops and implements relevant statistical programs to incorporate data from multiple projects. 
 3. Designs comprehensive relational databases with working knowledge of the scientific applications impacting on the data analysis and reporting. 
@@ -28,6 +29,7 @@ Phase I:
 7. Integrates the research methodologies of multiple projects into bio-statistical analyses. 
 
 Phase II: 
+
 8. Prepares reports summarizing the analysis of research data, interpreting the findings and providing conclusions and recommendations. 
 9. Presents talks, seminars, or other oral presentations on the methodology and analysis used in scientific studies. 
 10. Assists investigators in preparation of research grant applications by writing research methods sections pertaining to acquisition, analysis, relevance and validity of data. 
