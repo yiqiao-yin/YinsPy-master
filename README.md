@@ -3,7 +3,7 @@
 [![YinsPythonProjects](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://yinscapital.com/research/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's Capital](www.YinsCapital.com). The site stores sample *.py* scripts and python notebooks for software development, statistical analysis, and machine learning applications. 
+This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's Capital](www.YinsCapital.com). The site stores sample *.py* scripts and *ipynb* notebooks for software development, statistical analysis, and machine learning applications. 
 
 <p align="center">
   <img width="800" src="https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/figs/main.gif">
