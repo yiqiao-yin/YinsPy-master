@@ -62,4 +62,6 @@ Machine Learning is another big component of Yin's Capital product.
 
 - As data gets bigger, we can start to see how multiple variables together impose an impact on dependent variable. It is not horribly difficult to make the transition from simple linear regresssion to multivariate linear regression problem. A data science project can be carried out to investigate investment startup profits using multivariate regression model which is [here](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_MultiLinearRegression_StartInvest.ipynb).
 
+- Simple and Multivariate Linear Models may be fast in making predictions. However, the variables can only be assumed to affect the dependent variable marginally. This may miss some interactions that have joint effect to the target variable. This fact provide us motivations to use tree-based learning algorithms. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_DecisionTreeRegressor_StartInvest.ipynb) I discuss Decision Tree Regressor as a leap from conventional regression problem and we are going to use visualization tools to help us understand why the machines do what it does. 
+
 
