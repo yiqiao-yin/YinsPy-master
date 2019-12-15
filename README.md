@@ -6,7 +6,7 @@
 This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's Capital](www.YinsCapital.com). The site stores sample *.py* scripts and *ipynb* notebooks for software development, statistical analysis, and machine learning applications. 
 
 <p align="center">
-  <img width="800" src="https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/figs/main.gif">
+  <img width="800" src="https://github.com/yiqiao-yin/YinsPy/blob/master/figs/main.gif">
 </p>
 
 - Copyright © Official python projects and products published by Yin's Capital.
