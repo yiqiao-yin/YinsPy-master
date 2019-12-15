@@ -50,6 +50,8 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_CAPM.ipynb).
 
+- An important skill is to conduct simulations when it comes to money management. Monte Carlo Markov Chain is a good method to adopt. Hence, I come up with this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_MCMC.ipynb) to execute this idea.
+
 ## Data Structures
 
 Data Structures are the key part of many computer algorithms as they allow the programmers to do data management in an efficient way. A right selection of data structure can enhance the efficiency of computer program or algorithm in a better way.
