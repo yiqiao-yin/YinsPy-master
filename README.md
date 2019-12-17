@@ -23,10 +23,10 @@ Phase I:
 1. Develops operational procedures for collection, editing, verification, and management of statistical data. 
 2. Develops and implements relevant statistical programs to incorporate data from multiple projects. 
 3. Designs comprehensive relational databases with working knowledge of the scientific applications impacting on the data analysis and reporting. 
-4. Assists faculty and other research professionals with the formulation and description of appropriate statistical methods. 
+4. Assists faculty, boss, clients and other research professionals with the formulation and description of appropriate statistical methods. 
 5. Evaluates research studies and recommends statistical procedures to analyze the data. 
 6. Carries out comprehensive statistical analysis for a broad spectrum of types of data and types of studies. 
-7. Integrates the research methodologies of multiple projects into bio-statistical analyses. 
+7. Integrates the research methodologies of multiple projects into bio-statistical analyses, statistical analysis, big data analysis, machine learning experimental design, deep learning architecture design, and so on. 
 
 Phase II: 
 
@@ -58,7 +58,7 @@ Data Structures are the key part of many computer algorithms as they allow the p
 
 - An important component in data structure is navigation through different formats of data and information extraction. I actually had an interview about this following question (source is provided by [HackerRank](https://www.hackerrank.com/domains/regex?filters%5Bsubdomains%5D%5B%5D=re-applications)): this problem is a derivation of the problems provided by HackerRank (since it is an encrypted interview question, I can't copy/paste here, but I took the idea and provide my own replication of the problem) [Validate and Report IP Address](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_DS_Validate_Report_IP_Address.ipynb)
 
-- I have seen arras and strings being tested in software engineer positions in technical interviews. I start with a simple [Valid Palindrome](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Valid_Palindrome.ipynb) here. 
+- I have seen arras and strings being tested in software engineer positions in technical interviews. I start with a simple [Evaluate Palindrome](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Valid_Palindrome.ipynb) here. 
 
 ## Machine Learning
 
