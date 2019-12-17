@@ -28,13 +28,13 @@ Phase I:
 6. Carries out comprehensive statistical analysis for a broad spectrum of types of data and types of studies. 
 7. Integrates the research methodologies of multiple projects into bio-statistical analyses, statistical analysis, big data analysis, machine learning experimental design, deep learning architecture design, and so on. 
 
-Phase II: 
+Phase II:
 
-8. Prepares reports summarizing the analysis of research data, interpreting the findings and providing conclusions and recommendations. 
-9. Presents talks, seminars, or other oral presentations on the methodology and analysis used in scientific studies. 
-10. Assists investigators in preparation of research grant applications by writing research methods sections pertaining to acquisition, analysis, relevance and validity of data. 
-11. Participates in the preparation of manuscripts that are submitted for peer reviewed publication. 
-12. May supervise and provide training for lower level or less experienced employees. 
+8. Prepares reports summarizing the analysis of research data, interpreting the findings and providing conclusions and recommendations.
+9. Presents talks, seminars, or other oral presentations on the methodology and analysis used in scientific studies.
+10. Assists investigators in preparation of research grant applications by writing research methods sections pertaining to acquisition, analysis, relevance and validity of data.
+11. Participates in the preparation of manuscripts that are submitted for peer reviewed publication.
+12. May supervise and provide training for lower level or less experienced employees.
 13. May perform other duties as assigned.
 14. Develop statistical packages for clients, debug, product management.
 
