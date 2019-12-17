@@ -14,7 +14,7 @@ This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's 
 - Contact: Yiqiao Yin
 - Email: Yiqiao.Yin@YinsCapital.com
 
-## What Is It Special Here
+## Why Is It Special Here
 
 I pursue each and every one of my data science, machine learning, or AI projects using the following procedures. There are two phases. Phase I is about end-to-end research and due dilligence. Phase II is about product management and software maintainance as well as client relationship. In brief, they are listed out in the following.
 
