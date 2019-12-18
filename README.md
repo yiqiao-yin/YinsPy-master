@@ -60,6 +60,8 @@ Data Structures are the key part of many computer algorithms as they allow the p
 
 - I have seen arras and strings being tested in software engineer positions in technical interviews. I start with a simple [Evaluate Palindrome](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Valid_Palindrome.ipynb) here. 
 
+- The capability to partition a data set is very important and the functionality plays an important role in data structures. I wrote this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) to practice coding influence measure by partitioning data set according to discretized variable levels.
+
 ## Machine Learning
 
 Machine Learning is another big component of Yin's Capital product. 
