@@ -58,7 +58,7 @@ Data Structures are the key part of many computer algorithms as they allow the p
 
 - An important component in data structure is navigation through different formats of data and information extraction. I actually had an interview about this following question (source is provided by [HackerRank](https://www.hackerrank.com/domains/regex?filters%5Bsubdomains%5D%5B%5D=re-applications)): this problem is a derivation of the problems provided by HackerRank (since it is an encrypted interview question, I can't copy/paste here, but I took the idea and provide my own replication of the problem) [Validate and Report IP Address](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_DS_Validate_Report_IP_Address.ipynb)
 
-- I have seen arras and strings being tested in software engineer positions in technical interviews. I start with a simple [Evaluate Palindrome](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Valid_Palindrome.ipynb) here. 
+- I have seen arrays and strings being tested in software engineer positions in technical interviews. I start with a simple [Evaluate Palindrome](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Valid_Palindrome.ipynb) here. 
 
 - The capability to partition a data set is very important and the functionality plays an important role in data structures. I wrote this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) to practice coding influence measure by partitioning data set according to discretized variable levels.
 
