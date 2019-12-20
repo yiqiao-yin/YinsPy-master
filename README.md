@@ -62,6 +62,12 @@ Data Structures are the key part of many computer algorithms as they allow the p
 
 - The capability to partition a data set is very important and the functionality plays an important role in data structures. I wrote this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) to practice coding influence measure by partitioning data set according to discretized variable levels.
 
+## Feature Selection and Feature Engineer
+
+Domain knowledge always gives a data scientist, a machine learning practitioner, or an AI specialist the edge they needed to design the appropriate machine leaning algorithms. The information to represent domain knowledge is to construct informative features. 
+
+- The most common feature engineer methodology is to use k-nearest neighbors and this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_FSFE_KMeans.ipynb) I explain how to do that on titanic data set.
+
 ## Machine Learning
 
 Machine Learning is another big component of Yin's Capital product. 
