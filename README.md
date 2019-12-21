@@ -85,3 +85,5 @@ Machine Learning is another big component of Yin's Capital product.
 A higher level of form of machine learning is deep learning. The mystery of deep learning pose a great potential as well as threat to mankind. Data is unbiased. Algorithms are biased. However, the design of experiment by human can almost never by 100\% impartial. 
 
 - The first notebook I discuss a [basic neural network based regression](impartial) problem predicting fuel efficiency. 
+
+- To take things to another level, I move away from regression problem and attempt a very basic classification problem. The [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_NN3.ipynb) here conducts a basic 3-layer neural network architecture and lands on software development.
