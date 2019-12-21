@@ -79,3 +79,9 @@ Machine Learning is another big component of Yin's Capital product.
 - Simple and Multivariate Linear Models may be fast in making predictions. However, the variables can only be assumed to affect the dependent variable marginally. This may miss some interactions that have joint effect to the target variable. This fact provide us motivations to use tree-based learning algorithms. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_DecisionTreeRegressor_StartInvest.ipynb) I discuss Decision Tree Regressor as a leap from conventional regression problem and we are going to use visualization tools to help us understand why the machines do what it does.
 
 - Machine Learning has a lot of components. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_ML_KNNRegressorClassifier.ipynb) I introduce a famous machine learning techniques using K-Nearest Neighborhood and I walk through each and every step in conducting a standardized machine learning projects including but not limiting to training and validating set examination, cross validation, feature selection, explore different loss functions, and performance visualization.
+
+## Deep Learning
+
+A higher level of form of machine learning is deep learning. The mystery of deep learning pose a great potential as well as threat to mankind. Data is unbiased. Algorithms are biased. However, the design of experiment by human can almost never by 100\% impartial. 
+
+- The first notebook I discuss a [basic neural network based regression](impartial) problem predicting fuel efficiency. 
