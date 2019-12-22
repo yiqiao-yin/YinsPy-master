@@ -68,6 +68,8 @@ Domain knowledge always gives a data scientist, a machine learning practitioner,
 
 - The most common feature engineer methodology is to use k-nearest neighbors and this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_FSFE_KMeans.ipynb) I explain how to do that on titanic data set.
 
+- Feature selection is important in a way that it can allow data scientists and machine learning practitioners to directly interact with the informative information that leads to correct model specification. It is essential to let data speak for itself instead of assuming an underlying model which is why conventional methodologies such as step-wise regression by AIC/BIC pose a challenge. To tackle this problem, we introduce a nonparametric feature selection method pioneered by Professor Shawhwa Lo at Columbia University. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) I introduce a vanilla version of influence score, a metric designed to take in $X$ and $y$ and spits out how predictive $X$ influencing $y$. 
+
 ## Machine Learning
 
 Machine Learning is another big component of Yin's Capital product. 
