@@ -41,7 +41,7 @@ class InteractionBasedLearning:
     # End of function
     
     # Define function
-    def FSFE_BDA(newX, y, num_initial_draw = 4):
+    def BDA(X, y, num_initial_draw = 4):
         # Environment Initiation
         import numpy as np
         import matplotlib.pyplot as plt
@@ -49,7 +49,7 @@ class InteractionBasedLearning:
         import random
         
         # Random Sampling
-        newX = newX.iloc[:, random.sample(range(newX.shape[1]), num_initial_draw)]
+        newX = X.iloc[:, random.sample(range(X.shape[1]), num_initial_draw)]
 
         # BDA
         newX_copy = newX
@@ -82,7 +82,7 @@ class InteractionBasedLearning:
     # End of function
     
     # Define function
-    def FSFE_InteractionLearning(newX, y, test_size=0.3, 
+    def InteractionLearning(newX, y, testSize=0.3, 
                                  num_initial_draw=7, total_rounds=10, top_how_many=3, 
                                  verbatim=True):
         # Environment Initiation
@@ -94,19 +94,20 @@ class InteractionBasedLearning:
         
         # Split Train and Validate
         from sklearn.model_selection import train_test_split
-        X_train, X_test, y_train, y_test = train_test_split(newX, y, test_size=test_size, random_state = 0)
+        X_train, X_test, y_train, y_test = train_test_split(newX, y, test_size=testSize, random_state = 0)
         
         # Start Learning
         start = time.time()
         listVariableModule = []
         listInfluenceScore = []
-        for i in range(total_rounds):
-            oneDraw = InteractionBasedLearning.FSFE_BDA(newX=X_train, y=y_train, num_initial_draw=num_initial_draw)
+        from tqdm import tqdm
+        for i in tqdm(range(total_rounds)):
+            oneDraw = InteractionBasedLearning.BDA(X=X_train, y=y_train, num_initial_draw=num_initial_draw)
             listVariableModule.append([np.array(oneDraw['newX'].columns)])
             listInfluenceScore.append(oneDraw['MaxIscore'])
-            if verbatim == True:
-                print(f'Finished round {i}')
         end = time.time()
+        
+        # Time Check
         if verbatim == True: print('Time Consumption', end - start)
         
         # Update Features
@@ -127,10 +128,14 @@ class InteractionBasedLearning:
                 listInfluenceScore_copy, 
                 listInfluenceScore_copy.tolist().index(np.max(listInfluenceScore_copy)))
         
+        briefResult = pd.DataFrame({'Modules': listVariableModule, 'Score': listInfluenceScore})
+        briefResult = briefResult.sort_values(by=['Score'], ascending=False)
+
         # Output
         return {
             'List of Variable Modules': listVariableModule,
             'List of Influence Measures': listInfluenceScore,
+            'Brief': briefResult,
             'New Features': informativeX
         }
     # End of function
