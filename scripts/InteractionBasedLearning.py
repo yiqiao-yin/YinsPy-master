@@ -76,7 +76,61 @@ class InteractionBasedLearning:
             'newX': finalX,
             'Summary': {
                 'Variable Module': np.array(finalX.columns), 
-                'Influence Score': np.max(iscorePath)
+                'Influence Score': np.max(iscorePath) },
+            'Brief': [[[np.array(finalX.columns)], [np.max(iscorePath)]]]
             }
+    # End of function
+    
+    # Define function
+    def FSFE_InteractionLearning(newX, y, test_size=0.3, 
+                                 num_initial_draw=7, total_rounds=10, top_how_many=3, 
+                                 verbatim=True):
+        # Environment Initiation
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import pandas as pd
+        import random
+        import time
+        
+        # Split Train and Validate
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(newX, y, test_size=test_size, random_state = 0)
+        
+        # Start Learning
+        start = time.time()
+        listVariableModule = []
+        listInfluenceScore = []
+        for i in range(total_rounds):
+            oneDraw = InteractionBasedLearning.FSFE_BDA(newX=X_train, y=y_train, num_initial_draw=num_initial_draw)
+            listVariableModule.append([np.array(oneDraw['newX'].columns)])
+            listInfluenceScore.append(oneDraw['MaxIscore'])
+            if verbatim == True:
+                print(f'Finished round {i}')
+        end = time.time()
+        if verbatim == True: print('Time Consumption', end - start)
+        
+        # Update Features
+        listVariableModule_copy = listVariableModule
+        listInfluenceScore_copy = listInfluenceScore
+        selectedNom = listVariableModule[listInfluenceScore.index(np.max(listInfluenceScore))]
+        informativeX = pd.DataFrame(newX[selectedNom[0]])
+        listVariableModule_copy = np.delete(listVariableModule_copy, listInfluenceScore_copy.index(np.max(listInfluenceScore)))
+        listInfluenceScore_copy = np.delete(listInfluenceScore_copy, listInfluenceScore_copy.index(np.max(listInfluenceScore)))
+
+        for j in range(2, top_how_many):
+            selectedNom = listVariableModule_copy[listInfluenceScore_copy.tolist().index(np.max(listInfluenceScore_copy))]
+            informativeX = pd.concat([informativeX, pd.DataFrame(newX[selectedNom])], axis=1)
+            listVariableModule_copy = np.delete(
+                listVariableModule_copy, 
+                listInfluenceScore_copy.tolist().index(np.max(listInfluenceScore_copy)))
+            listInfluenceScore_copy = np.delete(
+                listInfluenceScore_copy, 
+                listInfluenceScore_copy.tolist().index(np.max(listInfluenceScore_copy)))
+        
+        # Output
+        return {
+            'List of Variable Modules': listVariableModule,
+            'List of Influence Measures': listInfluenceScore,
+            'New Features': informativeX
         }
     # End of function
