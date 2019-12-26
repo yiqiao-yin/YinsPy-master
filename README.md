@@ -48,7 +48,9 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - When it comes to portfolio construction, Markowitz is my go-to guy to discuss. Here is a notebook to discuss his point of view of efficient portfolio. Link is [here](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_Markowitz_Portfolio.ipynb).
 
-- The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_CAPM.ipynb).
+- The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_CAPM.ipynb). 
+
+- After foundation of capital markets, we have some understanding of asset classes risk premiums. How about the risk premiums of parameters of different asset classes or different portfolios? How do we explain these quantitative factors? This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_FamaMacbeth.ipynb) I discuss Fama-Macbeth regression and how 17 industry portfolios downloaded live from Fama and French's website can be used to carry out a cross-sectional panel study. 
 
 - An important skill is to conduct simulations when it comes to money management. Monte Carlo Markov Chain is a good method to adopt. Hence, I come up with this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_MCMC.ipynb) to execute this idea.
 
