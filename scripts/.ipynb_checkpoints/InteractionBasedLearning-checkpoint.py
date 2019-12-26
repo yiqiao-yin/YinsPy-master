@@ -22,12 +22,12 @@ class InteractionBasedLearning:
 
         # Compute Influence Score:
         import collections
-        list_local_mean = []
+        n = X.shape[0]
         Y_bar = y.mean()
-        local_mean_vector = []
         grouped = pd.DataFrame({'y': y, 'X': partition})
         local_mean_vector = pd.DataFrame(grouped.groupby('X').mean())
-        iscore = np.mean(np.array(local_n**2).reshape(1, local_n.shape[0]) * np.array([(local_mean_vector['y'] - Y_bar)**2])) / np.std(y)
+        local_n = grouped.groupby('X').count()['y']
+        iscore = np.sum(np.array(local_n**2).reshape(1, local_n.shape[0]) * np.array([(local_mean_vector['y'] - Y_bar)**2])) / np.std(y) / n
 
         # Output
         return {
