@@ -91,3 +91,5 @@ A higher level of form of machine learning is deep learning. The mystery of deep
 - The first notebook I discuss a [basic neural network based regression](impartial) problem predicting fuel efficiency. 
 
 - To take things to another level, I move away from regression problem and attempt a very basic classification problem. The [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_NN3.ipynb) here conducts a basic 3-layer neural network architecture and lands on software development.
+
+- Object Detection is a higher level of artistic representation of the usage of deep learning. Specifically, there are object detection, facial detection, gender detection, and object localization. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_SimpleCVLib.ipynb), I use open source *cvlib* as playground to illustrate some basic applications of this style.
