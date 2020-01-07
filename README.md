@@ -54,6 +54,8 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - An important skill is to conduct simulations when it comes to money management. Monte Carlo Markov Chain is a good method to adopt. Hence, I come up with this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_MCMC.ipynb) to execute this idea.
 
+- Traditional asset pricing models or factor-base trading algorithms look into the historical data to help fund managers to make decisions. Instead of looking into the historical data, we can also use machine learning to gain insights for future data. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM_StockPriceForecast.ipynb), I discuss how to use Long Short Term Memory (LSTM) as main RNN architecture to forecast stock price.
+
 ## Data Structures
 
 Data Structures are the key part of many computer algorithms as they allow the programmers to do data management in an efficient way. A right selection of data structure can enhance the efficiency of computer program or algorithm in a better way.
@@ -96,4 +98,10 @@ A higher level of form of machine learning is deep learning. The mystery of deep
 
 <p align="center">
   <img width="400" src="https://github.com/yiqiao-yin/YinsPy/blob/master/videos/2019_12_30.gif">
+</p>
+
+Personal Home AI Surveillance:
+
+<p align="center">
+  <img width="400" src="https://github.com/yiqiao-yin/YinsPy/blob/master/videos/2020_1_7.gif">
 </p>
