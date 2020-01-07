@@ -54,7 +54,7 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - An important skill is to conduct simulations when it comes to money management. Monte Carlo Markov Chain is a good method to adopt. Hence, I come up with this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_MCMC.ipynb) to execute this idea.
 
-- Traditional asset pricing models or factor-base trading algorithms look into the historical data to help fund managers to make decisions. Instead of looking into the historical data, we can also use machine learning to gain insights for future data. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM_StockPriceForecast.ipynb), I discuss how to use Long Short Term Memory (LSTM) as main RNN architecture to forecast stock price.
+- Traditional asset pricing models or factor-base trading algorithms look into the historical data to help fund managers to make decisions. Instead of looking into the historical data, we can also use machine learning to gain insights for future data. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM_StockPriceForecast.ipynb), I discuss how to use Long Short Term Memory (LSTM) as main RNN architecture to forecast stock price. This algorithm can be generalized into a package and I wrote a [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM.ipynb) to discuss it. The algorithms are written in [YinsDL](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/YinsDL.py) and one can always load this script by using typing in * %run "../scripts/YinsDL.py" * into Python notebook.
 
 ## Data Structures
 
