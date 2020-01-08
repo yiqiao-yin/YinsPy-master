@@ -1,5 +1,10 @@
 class YinsML:
-    
+
+    """
+    Yin's Machine Learning Package 
+    Copyright © YINS CAPITAL, 2009 – Present
+    """
+
     # Define function
     def DecisionTree_Classifier(X_train, X_test, y_train, y_test, maxdepth = 3):
         

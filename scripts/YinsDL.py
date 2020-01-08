@@ -1,13 +1,43 @@
 class YinsDL:
-    
+
+    """
+    Yin's Deep Learning Package 
+    Copyright © YINS CAPITAL, 2009 – Present
+    """
+
    # Define function
     def NN3_Classifier(
         X_train, y_train, X_test, y_test, 
         l1_act='relu', l2_act='relu', l3_act='softmax',
         layer1size=128, layer2size=64, layer3size=2,
         num_of_epochs=10):
+        
+        """
+        MANUAL:
+        
+        # One can use the following example.
+        house_sales = pd.read_csv('../data/kc_house_data.csv')
+        house_sales.head(3)
+        house_sales = house_sales.drop(['id', 'zipcode', 'lat', 'long', 'date'], axis=1)
+        house_sales.info()
 
-        """ Code Starts Here"""
+        X_all = house_sales.drop('price', axis=1)
+        y = np.log(house_sales.price)
+        y_binary = (y > y.mean()).astype(int)
+        y_binary
+        X_all.head(3), y_binary.head(3)
+
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X_all, y_binary, test_size=0.3, random_state=0)
+        print(X_train.shape, X_test.shape)
+        print(y_train)
+
+        testresult = DL_NN_Classification(X_train, y_train, X_test, y_test, 
+                                 l1_act='relu', l2_act='relu', l3_act='softmax',
+                                 layer1size=128, layer2size=64, layer3size=2,
+                                 num_of_epochs=50)
+        """
+
         # TensorFlow and tf.keras
         import tensorflow as tf
         from tensorflow import keras
@@ -77,6 +107,24 @@ class YinsDL:
         plotGraph = True,
         verbatim = True
     ):
+        """
+        MANUAL
+        
+        # Load Package
+        %run "../scripts/YinsMM.py"
+        
+        # Run
+        tmp = YinsDL.RNN4_Regressor(
+                start_date = '2013-01-01',
+                end_date   = '2019-12-6',
+                tickers    = 'AMD', cutoff = 0.8,
+                l1_units = 50, l2_units = 50, l3_units = 50, l4_units = 50,
+                optimizer = 'adam', loss = 'mean_squared_error',
+                epochs = 50, batch_size = 64,
+                plotGraph = True,
+                verbatim = True )
+        """
+        
         # Initiate Environment
         from scipy import stats
         import pandas as pd
