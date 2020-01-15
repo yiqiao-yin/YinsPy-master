@@ -99,18 +99,24 @@ class YinsMM:
 
     
     # Define function
-    def YinsTimer(start_date, end_date, ticker, k=20):
+    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), verbose=True):
         """
         MANUAL: Try run the following line by line in a Python Notebook
         
         # Load
-        %run "../scripts/YinsDL.py"
+        %run "../scripts/YinsMM.py"
         
         # Run
         what_stock_do_you_like = 'SPY'
         temp = YinsMM.YinsTimer(start_date, end_date, what_stock_do_you_like, k = 1)
         print('Optimal Portfolio has the following information', temp['Optimal Portfolio'])
         """
+        
+        # Initiate Environment
+        import pandas as pd
+        import numpy as np
+        import yfinance as yf
+        
         dta = yf.download(ticker, start_date, end_date)
         dta_stock = pd.DataFrame(dta)
 
@@ -122,34 +128,51 @@ class YinsMM:
                 val = 0
             return val
 
-        # Create Features
+        # Generate Data
         df_stock = dta_stock
         close = df_stock['Adj Close']
         df_stock['Normalize Return'] = close / close.shift() - 1
-        df_stock['SMA20'] = close.rolling(window=20).mean()
-        df_stock['SMA50'] = close.rolling(window=50).mean()
-        df_stock['SMA100'] = close.rolling(window=100).mean()
-        df_stock['SMA200'] = close.rolling(window=200).mean()
-        df_stock['DIST20'] = close / df_stock['SMA20'] - 1
-        df_stock['DIST50'] = close / df_stock['SMA50'] - 1
-        df_stock['DIST100'] = close / df_stock['SMA100'] - 1
-        df_stock['DIST200'] = close / df_stock['SMA200'] - 1
-        df_stock['aveDIST'] = (df_stock['DIST20'] + df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])*k
-        df_stock['Signal'] = df_stock.apply(chk, axis = 1)
 
-        # Plot
-        import matplotlib.pyplot as plt
-        # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
-        data_for_plot = df_stock[['Adj Close', 'SMA20', 'SMA50', 'SMA200']]
-        data_for_plot.plot(figsize = (15,6))
-        plt.show()
-        # No. 2: the second time-series graph plots signals generated from investigating distance matrix
-        data_for_plot = df_stock[['Signal']]
-        data_for_plot.plot(figsize = (15,3))
-        plt.show()
+        # Check
+        if len(dta_stock) < 200:
+            data_for_plot = []
+            print('Stock went IPO within a year.')
+        else:
+            # Create Features
+            df_stock['SMA20'] = close.rolling(window=20).mean()
+            df_stock['SMA50'] = close.rolling(window=50).mean()
+            df_stock['SMA100'] = close.rolling(window=100).mean()
+            df_stock['SMA200'] = close.rolling(window=200).mean()
+            df_stock['DIST20'] = close / df_stock['SMA20'] - 1
+            df_stock['DIST50'] = close / df_stock['SMA50'] - 1
+            df_stock['DIST100'] = close / df_stock['SMA100'] - 1
+            df_stock['DIST200'] = close / df_stock['SMA200'] - 1
+            df_stock['aveDIST'] = (df_stock['DIST20'] + df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])
+            df_stock['Signal'] = df_stock.apply(chk, axis = 1)
 
+            # Plot
+            import matplotlib.pyplot as plt
+            # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
+            data_for_plot = df_stock[['Adj Close', 'SMA20', 'SMA50', 'SMA200']]
+            data_for_plot.plot(figsize = figsize)
+            plt.show()
+            # No. 2: the second time-series graph plots signals generated from investigating distance matrix
+            data_for_plot = df_stock[['Signal']]
+            data_for_plot.plot(figsize = figsize)
+            plt.show()
+        
+        # Print
+        if verbose:
+            print("----------------------------------------------------------------------------------------------------")
+            print(f"Optimal Portfolio has the following information:")
+            print(f"Return={round(np.mean(dta_stock['Normalize Return']), 4)} and Volatility={round(np.std(dta_stock['Normalize Return']), 4)}")
+            print("Tail of resulting table:", pd.DataFrame(data_for_plot).tail())
+            print("----------------------------------------------------------------------------------------------------")
+        
+        
         # Return
         return {'data': dta_stock, 
+                'resulting matrix': data_for_plot,
                 'estimatedReturn': np.mean(dta_stock['Normalize Return']), 
                 'estimatedRisk': np.std(dta_stock['Normalize Return'])}
     

@@ -1,4 +1,11 @@
 class InteractionBasedLearning:
+    """
+    README:
+    This script has the following functions:
+    (1) iscore(): this function computes the I-score of selected X at predicting Y
+    (2) BDA(): this function runs through Backward Dropping Algorithm once
+    (3) InteractionLearning(): this function runs many rounds of BDA and finalize the variables selcted according to I-score
+    """
     # Define function
     def iscore(X, y):
         # Environment Initiation
@@ -10,8 +17,8 @@ class InteractionBasedLearning:
         # Create Partition
         partition = X.iloc[:, 0].astype(str)
         if X.shape[1] >= 2:
-            for i in range(X.shape[1]-1):
-                partition = partition.astype(str) + '_' + X.iloc[:, i].astype(str)
+            for i in range(1, X.shape[1]):
+                partition = partition.astype(str).str.cat(X.iloc[:, i].astype(str), sep ="_")
         else:
             partition = partition
 
@@ -37,11 +44,12 @@ class InteractionBasedLearning:
             'Global Mean': Y_bar,
             'Partition': Pi,
             'Number of Samples in Partition': local_n,
-            'Influence Score': iscore}
+            'Influence Score': iscore
+        }
     # End of function
     
     # Define function
-    def BDA(X, y, num_initial_draw = 4):
+    def BDA(X, y, num_initial_draw = 4, TYPE=int):
         # Environment Initiation
         import numpy as np
         import matplotlib.pyplot as plt
@@ -49,7 +57,7 @@ class InteractionBasedLearning:
         import random
         
         # Random Sampling
-        newX = X.iloc[:, random.sample(range(X.shape[1]), num_initial_draw)]
+        newX = X.iloc[:, sorted(random.sample(range(X.shape[1]), num_initial_draw))]
 
         # BDA
         newX_copy = newX
@@ -59,16 +67,16 @@ class InteractionBasedLearning:
             unit_scores = []
             for i in range(newX.shape[1]):
                 unit_scores.append(InteractionBasedLearning.iscore(
-                    X=newX.iloc[:, :].drop([str(newX.columns[i])], axis=1), y=y)['Influence Score'])
+                    X=newX.iloc[:, :].drop([TYPE(newX.columns[i])], axis=1), y=y)['Influence Score'])
                 #print(i, unit_scores, np.max(unit_scores), unit_scores.index(max(unit_scores)))
             iscorePath.append(np.max(unit_scores))
             to_drop = unit_scores.index(max(unit_scores))
-            newX = newX.iloc[:, :].drop([str(newX.columns[to_drop])], axis=1)
+            newX = newX.iloc[:, :].drop([TYPE(newX.columns[to_drop])], axis=1)
             selectedX[str(j)] = newX
 
         # Final Output
         finalX = pd.DataFrame(selectedX[str(iscorePath.index(max(iscorePath)))])
-
+        
         # Output
         return {
             'Path': iscorePath,
@@ -77,14 +85,15 @@ class InteractionBasedLearning:
             'Summary': {
                 'Variable Module': np.array(finalX.columns), 
                 'Influence Score': np.max(iscorePath) },
-            'Brief': [[[np.array(finalX.columns)], [np.max(iscorePath)]]]
-            }
+            'Brief': [np.array(finalX.columns), [np.max(iscorePath)]] 
+        }
     # End of function
     
     # Define function
-    def InteractionLearning(newX, y, testSize=0.3, 
-                                 num_initial_draw=7, total_rounds=10, top_how_many=3, 
-                                 verbatim=True):
+    def InteractionLearning(newX, y, 
+                            testSize=0.3, 
+                            num_initial_draw=7, total_rounds=10, top_how_many=3, 
+                            nameExists=True, TYPE=int, verbatim=True):
         # Environment Initiation
         import numpy as np
         import matplotlib.pyplot as plt
@@ -102,13 +111,15 @@ class InteractionBasedLearning:
         listInfluenceScore = []
         from tqdm import tqdm
         for i in tqdm(range(total_rounds)):
-            oneDraw = InteractionBasedLearning.BDA(X=X_train, y=y_train, num_initial_draw=num_initial_draw)
+            oneDraw = InteractionBasedLearning.BDA(X=X_train, y=y_train, num_initial_draw=num_initial_draw,
+                                                   TYPE=TYPE)
             listVariableModule.append([np.array(oneDraw['newX'].columns)])
             listInfluenceScore.append(oneDraw['MaxIscore'])
         end = time.time()
         
         # Time Check
-        if verbatim == True: print('Time Consumption', end - start)
+        if verbatim == True: 
+            print('Time Consumption:', end - start)
         
         # Update Features
         listVariableModule_copy = listVariableModule
@@ -128,14 +139,58 @@ class InteractionBasedLearning:
                 listInfluenceScore_copy, 
                 listInfluenceScore_copy.tolist().index(np.max(listInfluenceScore_copy)))
         
+        # Generate Brief
         briefResult = pd.DataFrame({'Modules': listVariableModule, 'Score': listInfluenceScore})
         briefResult = briefResult.sort_values(by=['Score'], ascending=False)
+        briefResult = briefResult.loc[~briefResult['Score'].duplicated()]
+        
+        # Generate New Data
+        X = newX
+        new_X = pd.DataFrame([])
+        for ii in range(0, top_how_many):
+            # Create Engineered Feature:
+            if nameExists:
+                X = newX[briefResult.iloc[ii, ][0][0]]
+            else:
+                X = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)]
+            y = y
+
+            # Create Partition
+            partition = X.iloc[:, 0].astype(str)
+            if X.shape[1] >= 2:
+                for i in range(1, X.shape[1]):
+                    partition = partition.astype(str).str.cat(X.iloc[:, i].astype(str), sep ="_")
+            else:
+                partition = partition
+
+            # Local Information
+            list_of_partitions = pd.DataFrame(partition.value_counts())
+            Pi = pd.DataFrame(list_of_partitions.index)
+            local_n = pd.DataFrame(list_of_partitions.iloc[:, :])
+
+            # Partition:
+            import collections
+            n = X.shape[0]
+            Y_bar = y.mean()
+            grouped = pd.DataFrame({'y': y, 'X': partition})
+            local_mean_vector = pd.DataFrame(grouped.groupby('X').mean())
+
+            # Engineered Feature:
+            engineeredX = []
+            for i in range(len(X)):
+                engineeredX.append(local_mean_vector.iloc[partition.iloc[i, ] == local_mean_vector.index, ].iloc[0, 0])
+
+            # Concatenate:
+            new_X = pd.concat([new_X, 
+                               newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)],
+                               pd.DataFrame(engineeredX)], axis=1)
 
         # Output
         return {
             'List of Variable Modules': listVariableModule,
             'List of Influence Measures': listInfluenceScore,
             'Brief': briefResult,
-            'New Features': informativeX
+            'New Features': informativeX,
+            'New Data': new_X
         }
     # End of function
