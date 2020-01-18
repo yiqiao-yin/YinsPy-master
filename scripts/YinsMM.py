@@ -99,7 +99,7 @@ class YinsMM:
 
     
     # Define function
-    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), verbose=True):
+    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, verbose=True):
         """
         MANUAL: Try run the following line by line in a Python Notebook
         
@@ -121,9 +121,15 @@ class YinsMM:
         dta_stock = pd.DataFrame(dta)
 
         # Define Checking Functions:
+        if LB > 0:
+            print('Lower Bound (LB) for Signal is not in threshold and is set to default value: -0.01')
+            LB = -0.01
+        if UB < 0:
+            print('Upper Bound (UB) for Signal is not in threshold and is set to default value: +0.01')
+            UB = +0.01
         def chk(row):
-            if row['aveDIST'] < 0:
-                val = row['aveDIST']*(-1)
+            if row['aveDIST'] < LB or row['aveDIST'] > UB:
+                val = row['aveDIST']
             else:
                 val = 0
             return val
@@ -147,7 +153,7 @@ class YinsMM:
             df_stock['DIST50'] = close / df_stock['SMA50'] - 1
             df_stock['DIST100'] = close / df_stock['SMA100'] - 1
             df_stock['DIST200'] = close / df_stock['SMA200'] - 1
-            df_stock['aveDIST'] = (df_stock['DIST20'] + df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])
+            df_stock['aveDIST'] = (df_stock['DIST20'] + df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])/4
             df_stock['Signal'] = df_stock.apply(chk, axis = 1)
 
             # Plot
@@ -164,9 +170,14 @@ class YinsMM:
         # Print
         if verbose:
             print("----------------------------------------------------------------------------------------------------")
-            print(f"Optimal Portfolio has the following information:")
-            print(f"Return={round(np.mean(dta_stock['Normalize Return']), 4)} and Volatility={round(np.std(dta_stock['Normalize Return']), 4)}")
-            print("Tail of resulting table:", pd.DataFrame(data_for_plot).tail())
+            print(f"Entered Stock has the following information:")
+            print(f'Ticker: {ticker}')
+            print(f"Expted Return: {round(np.mean(dta_stock['Normalize Return']), 4)}")
+            print(f"Expted Risk (Volatility): {round(np.std(dta_stock['Normalize Return']), 4)}")
+            print(f"Reward-Risk Ratio (Daily Data): {round(np.mean(dta_stock['Normalize Return']) / np.std(dta_stock['Normalize Return']), 4)}")
+            print("Tail of the 'Buy/Sell Signal' dataframe:")
+            print(pd.DataFrame(data_for_plot).tail())
+            print("Note: positive values indicate 'sell' and negative values indicate 'buy'.")
             print("----------------------------------------------------------------------------------------------------")
         
         # Get More Data:
