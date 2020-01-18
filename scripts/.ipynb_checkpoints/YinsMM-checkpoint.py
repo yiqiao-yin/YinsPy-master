@@ -1,27 +1,36 @@
 class YinsMM:
-    
-    """
-    Yin's Money Managmeent Package 
-    Copyright © YINS CAPITAL, 2009 – Present
-    """
+
+    print("-----------------------------------------------------")
+    print(
+        """
+        Yin's Money Managmeent Package 
+        Copyright © YINS CAPITAL, 2009 – Present
+        """ )
+    print("-----------------------------------------------------")
     
     # Define function
-    def MarkowitzPortfolio(tickers, start_date, end_date):
-        """
-        MANUAL: Try run the following line by line in a Python Notebook
-        
-        # Load
-        %run "../scripts/YinsDL.py"
-        
-        # Input
-        start_date = pd.to_datetime('2013-01-01')
-        end_date = pd.to_datetime('2019-12-6')
-        tickers = ['aapl', 'fb']
+    def MarkowitzPortfolio(tickers, start_date, end_date, verbose=True):
+        if verbose:
+            print("------------------------------------------------------------------------------")
+            print("MANUAL: ")
+            print("Try run the following line by line in a Python Notebook.")
+            print(
+                """
+                # Load
+                %run "../scripts/YinsMM.py"
 
-        # Run
-        temp = YinsMM.MarkowitzPortfolio(tickers, start_date, end_date)
-        print('Optimal Portfolio has the following information', testresult['Optimal Portfolio'])
-        """
+                # Input
+                start_date = pd.to_datetime('2013-01-01')
+                end_date = pd.to_datetime('2019-12-6')
+                tickers = ['aapl', 'fb'] # only two tickers
+
+                # Run
+                temp = YinsMM.MarkowitzPortfolio(tickers, start_date, end_date, verbose=True)
+                print('Optimal Portfolio has the following information', testresult['Optimal Portfolio'])
+                """ )
+            print("Manual ends here.")
+            print("------------------------------------------------------------------------------")
+
         # Define function
         def getDatafromYF(ticker, start_date, end_date):
             stockData = yf.download(ticker, start_date, end_date)
@@ -99,18 +108,26 @@ class YinsMM:
 
     
     # Define function
-    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, verbose=True):
-        """
-        MANUAL: Try run the following line by line in a Python Notebook
-        
-        # Load
-        %run "../scripts/YinsMM.py"
-        
-        # Run
-        what_stock_do_you_like = 'SPY'
-        temp = YinsMM.YinsTimer(start_date, end_date, what_stock_do_you_like, k = 1)
-        print('Optimal Portfolio has the following information', temp['Optimal Portfolio'])
-        """
+    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, plotGraph=True, verbose=True):
+        if verbose:
+            print("------------------------------------------------------------------------------")
+            print("MANUAL: ")
+            print("Try run the following line by line in a Python Notebook.")
+            print(
+            """
+            # Load
+            %run "../scripts/YinsMM.py"
+
+            # Run
+            start_date = '2010-01-01'
+            end_date   = '2020-01-18'
+            ticker = 'FB'
+            temp = YinsMM.YinsTimer(start_date, end_date, ticker, 
+                                    figsize=(15,6), LB=-0.01, UB=0.01, 
+                                    plotGraph=True, verbose=True)
+            """ )
+            print("Manual ends here.")
+            print("------------------------------------------------------------------------------")
         
         # Initiate Environment
         import pandas as pd
@@ -158,14 +175,15 @@ class YinsMM:
 
             # Plot
             import matplotlib.pyplot as plt
-            # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
-            data_for_plot = df_stock[['Adj Close', 'SMA20', 'SMA50', 'SMA200']]
-            data_for_plot.plot(figsize = figsize)
-            plt.show()
-            # No. 2: the second time-series graph plots signals generated from investigating distance matrix
-            data_for_plot = df_stock[['Signal']]
-            data_for_plot.plot(figsize = figsize)
-            plt.show()
+            if plotGraph:
+                # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
+                data_for_plot = df_stock[['Adj Close', 'SMA20', 'SMA50', 'SMA200']]
+                data_for_plot.plot(figsize = figsize)
+                plt.show()
+                # No. 2: the second time-series graph plots signals generated from investigating distance matrix
+                data_for_plot = df_stock[['Signal']]
+                data_for_plot.plot(figsize = figsize)
+                plt.show()
         
         # Print
         if verbose:
@@ -189,8 +207,6 @@ class YinsMM:
             'show dividends': tck.dividends,
             'show splits': tck.splits,
             'show financials': [tck.financials, tck.quarterly_financials],
-            'show major holders': tck.major_holders,
-            'show institutional holders': tck.institutional_holders,
             'show balance sheet': [tck.balance_sheet, tck.quarterly_balance_sheet],
             'show cashflow': [tck.cashflow, tck.quarterly_cashflow],
             'show earnings': [tck.earnings, tck.quarterly_earnings],
@@ -209,20 +225,26 @@ class YinsMM:
                }
     
     # Define function
-    def CAPM(tickers, start_date, end_date):
-        """
-        MANUAL: Try run the following line by line in a Python Notebook
-        
-        # Load
-        %run "../scripts/YinsDL.py"
-        
-        # Run
-        start_date = pd.to_datetime('2013-01-01')
-        end_date = pd.to_datetime('2019-12-6')
-        tickers = ['AAPL', 'SPY']
-        testresult = mmCAPM(tickers, start_date, end_date)
-        print(testresult['Beta'], testresult['Alpha'])
-        """
+    def CAPM(tickers, start_date, end_date, verbose=True):
+        if verbose:
+            print("------------------------------------------------------------------------------")
+            print("MANUAL: ")
+            print("Try run the following line by line in a Python Notebook.")
+            print(
+                """
+                # Load
+                %run "../scripts/YinsMM.py"
+
+                # Run
+                start_date = pd.to_datetime('2013-01-01')
+                end_date = pd.to_datetime('2019-12-6')
+                tickers = ['AAPL', 'SPY']
+                testresult = CAPM(tickers, start_date, end_date)
+                print(testresult['Beta'], testresult['Alpha'])
+                """ )
+            print("Manual ends here.")
+            print("------------------------------------------------------------------------------")
+            
         from scipy import stats
         import pandas as pd
         import numpy as np
