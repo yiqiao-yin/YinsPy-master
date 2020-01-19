@@ -48,9 +48,13 @@ Having a sound long-term investment strategy as a part of a comprehensive money 
 
 - When it comes to portfolio construction, Markowitz is my go-to guy to discuss. Here is a notebook to discuss his point of view of efficient portfolio. Link is [here](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_Markowitz_Portfolio.ipynb).
 
-- The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_CAPM.ipynb).
+- The most basic pricing model, Capital Asset Pricing Model (CAPM), is without a doubt an important discussion here on my platform. Here is a python notebook for a quick [discussion](https://github.com/yiqiao-yin/Yins_Python_Projects/blob/master/scripts/python_MM_CAPM.ipynb). 
+
+- After foundation of capital markets, we have some understanding of asset classes risk premiums. How about the risk premiums of parameters of different asset classes or different portfolios? How do we explain these quantitative factors? This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_FamaMacbeth.ipynb) I discuss Fama-Macbeth regression and how 17 industry portfolios downloaded live from Fama and French's website can be used to carry out a cross-sectional panel study. 
 
 - An important skill is to conduct simulations when it comes to money management. Monte Carlo Markov Chain is a good method to adopt. Hence, I come up with this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_MCMC.ipynb) to execute this idea.
+
+- Traditional asset pricing models or factor-base trading algorithms look into the historical data to help fund managers to make decisions. Instead of looking into the historical data, we can also use machine learning to gain insights for future data. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM_StockPriceForecast.ipynb), I discuss how to use Long Short Term Memory (LSTM) as main RNN architecture to forecast stock price. This algorithm can be generalized into a package and I wrote a [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_MM_LSTM.ipynb) to discuss it. The algorithms are written in [YinsDL](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/YinsDL.py) and one can always load this script by using typing in * %run "../scripts/YinsDL.py" * into Python notebook.
 
 ## Data Structures
 
@@ -68,7 +72,7 @@ Domain knowledge always gives a data scientist, a machine learning practitioner,
 
 - The most common feature engineer methodology is to use k-nearest neighbors and this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_FSFE_KMeans.ipynb) I explain how to do that on titanic data set.
 
-- Feature selection is important in a way that it can allow data scientists and machine learning practitioners to directly interact with the informative information that leads to correct model specification. It is essential to let data speak for itself instead of assuming an underlying model which is why conventional methodologies such as step-wise regression by AIC/BIC pose a challenge. To tackle this problem, we introduce a nonparametric feature selection method pioneered by Professor Shawhwa Lo at Columbia University. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) I introduce a vanilla version of influence score, a metric designed to take in $X$ and $y$ and spits out how predictive $X$ influencing $y$. Based on Influence Score (also known as "influence score" or "i-score"), we design a greedy backward dropping algorithm taking full advantage of the unique property of Influence Score (e.g. I-score) which states that I-score is high when selected covariate matrix $X$ has larger impact on target variable $y$ and is low when selected covariate matrix $X$ has lower impact or noise within on $y$. I discuss the Backward Dropping Algorithm in this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_FSFE_InfluenceScore.ipynb)
+- Feature selection is important in a way that it can allow data scientists and machine learning practitioners to directly interact with the informative information that leads to correct model specification. It is essential to let data speak for itself instead of assuming an underlying model which is why conventional methodologies such as step-wise regression by AIC/BIC pose a challenge. To tackle this problem, we introduce a nonparametric feature selection method pioneered by Professor Shawhwa Lo at Columbia University. This [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DS_Measure_Predictivity.ipynb) I introduce a vanilla version of influence score, a metric designed to take in $X$ and $y$ and spits out how predictive $X$ influencing $y$. Based on Influence Score (also known as "influence score" or "i-score"), we design a greedy backward dropping algorithm taking full advantage of the unique property of Influence Score (e.g. I-score) which states that I-score is high when selected covariate matrix $X$ has larger impact on target variable $y$ and is low when selected covariate matrix $X$ has lower impact or noise within on $y$. I discuss the Backward Dropping Algorithm in this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_FSFE_InfluenceScore.ipynb). The production code is written in a *.py* file and can be loaded to any python notebook for user. One can click [here](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/InteractionBasedLearning.py) to read the python notebook.
 
 ## Machine Learning
 
@@ -89,3 +93,15 @@ A higher level of form of machine learning is deep learning. The mystery of deep
 - The first notebook I discuss a [basic neural network based regression](impartial) problem predicting fuel efficiency. 
 
 - To take things to another level, I move away from regression problem and attempt a very basic classification problem. The [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_NN3.ipynb) here conducts a basic 3-layer neural network architecture and lands on software development.
+
+- Object Detection is a higher level of artistic representation of the usage of deep learning. Specifically, there are object detection, facial detection, gender detection, and object localization. In this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_SimpleCVLib.ipynb), I use open source *cvlib* as playground to illustrate some basic applications of this style. An advanced version is YOLO algorithm with live camera feed. Fortunately, open source *cvlib* have made the production code fairly easy for customer use and in this [notebook](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_DL_YOLO_Live.ipynb) I explain how to deploy the usage of such technology. An interesting application is posted below.
+
+<p align="center">
+  <img width="400" src="https://github.com/yiqiao-yin/YinsPy/blob/master/videos/2019_12_30.gif">
+</p>
+
+Personal Home AI Surveillance:
+
+<p align="center">
+  <img width="400" src="https://github.com/yiqiao-yin/YinsPy/blob/master/videos/2020_1_7.gif">
+</p>

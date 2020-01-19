@@ -5,6 +5,7 @@ class YinsMM:
         """
         Yin's Money Managmeent Package 
         Copyright © YINS CAPITAL, 2009 – Present
+        For more information, please go to www.YinsCapital.com
         """ )
     print("-----------------------------------------------------")
     
@@ -108,8 +109,10 @@ class YinsMM:
 
     
     # Define function
-    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, plotGraph=True, verbose=True):
-        if verbose:
+    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), 
+                  LB=-0.01, UB=0.01, 
+                  plotGraph=True, verbose=True, printManual=True):
+        if printManual:
             print("------------------------------------------------------------------------------")
             print("MANUAL: ")
             print("Try run the following line by line in a Python Notebook.")
@@ -123,7 +126,8 @@ class YinsMM:
             end_date   = '2020-01-18'
             ticker = 'FB'
             temp = YinsMM.YinsTimer(start_date, end_date, ticker, 
-                                    figsize=(15,6), LB=-0.01, UB=0.01, 
+                                    figsize=(<<width of plot>>, <<height of plot>>), 
+                                    LB=<<some negative value>>, UB=<<some positive value>>, 
                                     plotGraph=True, verbose=True)
             """ )
             print("Manual ends here.")
@@ -156,28 +160,32 @@ class YinsMM:
         close = df_stock['Adj Close']
         df_stock['Normalize Return'] = close / close.shift() - 1
 
-        # Check
+        # Generate Signal:
         if len(dta_stock) < 200:
             data_for_plot = []
+            basicStats = []
             print('Stock went IPO within a year.')
         else:
             # Create Features
+            df_stock['SMA12'] = close.rolling(window=12).mean()
             df_stock['SMA20'] = close.rolling(window=20).mean()
             df_stock['SMA50'] = close.rolling(window=50).mean()
             df_stock['SMA100'] = close.rolling(window=100).mean()
             df_stock['SMA200'] = close.rolling(window=200).mean()
+            df_stock['DIST12'] = close / df_stock['SMA12'] - 1
             df_stock['DIST20'] = close / df_stock['SMA20'] - 1
             df_stock['DIST50'] = close / df_stock['SMA50'] - 1
             df_stock['DIST100'] = close / df_stock['SMA100'] - 1
             df_stock['DIST200'] = close / df_stock['SMA200'] - 1
-            df_stock['aveDIST'] = (df_stock['DIST20'] + df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])/4
+            df_stock['aveDIST'] = (df_stock['DIST12'] + df_stock['DIST20'] + 
+                                   df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])/5
             df_stock['Signal'] = df_stock.apply(chk, axis = 1)
 
             # Plot
             import matplotlib.pyplot as plt
             if plotGraph:
                 # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
-                data_for_plot = df_stock[['Adj Close', 'SMA20', 'SMA50', 'SMA200']]
+                data_for_plot = df_stock[['Adj Close', 'SMA12', 'SMA20', 'SMA50', 'SMA100', 'SMA200']]
                 data_for_plot.plot(figsize = figsize)
                 plt.show()
                 # No. 2: the second time-series graph plots signals generated from investigating distance matrix
@@ -185,18 +193,37 @@ class YinsMM:
                 data_for_plot.plot(figsize = figsize)
                 plt.show()
         
-        # Print
-        if verbose:
-            print("----------------------------------------------------------------------------------------------------")
-            print(f"Entered Stock has the following information:")
-            print(f'Ticker: {ticker}')
-            print(f"Expted Return: {round(np.mean(dta_stock['Normalize Return']), 4)}")
-            print(f"Expted Risk (Volatility): {round(np.std(dta_stock['Normalize Return']), 4)}")
-            print(f"Reward-Risk Ratio (Daily Data): {round(np.mean(dta_stock['Normalize Return']) / np.std(dta_stock['Normalize Return']), 4)}")
-            print("Tail of the 'Buy/Sell Signal' dataframe:")
-            print(pd.DataFrame(data_for_plot).tail())
-            print("Note: positive values indicate 'sell' and negative values indicate 'buy'.")
-            print("----------------------------------------------------------------------------------------------------")
+            # Check Statistics:
+            SIGNAL      = df_stock['Signal']
+            LENGTH      = len(SIGNAL)
+            count_plus  = 0
+            count_minus = 0
+            for i in range(LENGTH):
+                if float(SIGNAL.iloc[i,]) > 0:
+                    count_plus += 1
+            for i in range(LENGTH):
+                if float(SIGNAL.iloc[i,]) < 0:
+                    count_minus += 1
+            basicStats = {'AVE_BUY': round(np.sum(count_minus)/LENGTH, 4),
+                          'AVE_SELL': round(np.sum(count_plus)/LENGTH, 4) }
+
+            # Print
+            if verbose:
+                print("----------------------------------------------------------------------------------------------------")
+                print(f"Entered Stock has the following information:")
+                print(f'Ticker: {ticker}')
+                print("---")
+                print(f"Expted Return: {round(np.mean(dta_stock['Normalize Return']), 4)}")
+                print(f"Expted Risk (Volatility): {round(np.std(dta_stock['Normalize Return']), 4)}")
+                print(f"Reward-Risk Ratio (Daily Data): {round(np.mean(dta_stock['Normalize Return']) / np.std(dta_stock['Normalize Return']), 4)}")
+                print("---")
+                print("Tail of the 'Buy/Sell Signal' dataframe:")
+                print(pd.DataFrame(data_for_plot).tail())
+                print("Note: positive values indicate 'sell' and negative values indicate 'buy'.")
+                print("---")
+                print(f"Basic Statistics for Buy Sell Signals: {basicStats}")
+                print("Note: Change LB and UB to ensure average buy sell signals fall beneath 2%.")
+                print("----------------------------------------------------------------------------------------------------")
         
         # Get More Data:
         tck = yf.Ticker(ticker)
@@ -215,10 +242,10 @@ class YinsMM:
             'show next event (earnings, etc)': tck.calendar
         }
 
-
         # Return
         return {'data': dta_stock, 
                 'resulting matrix': data_for_plot,
+                'basic statistics': basicStats,
                 'estimatedReturn': np.mean(dta_stock['Normalize Return']), 
                 'estimatedRisk': np.std(dta_stock['Normalize Return']),
                 'ALL_DATA': ALL_DATA

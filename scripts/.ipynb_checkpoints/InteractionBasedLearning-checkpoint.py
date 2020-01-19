@@ -1,11 +1,23 @@
 class InteractionBasedLearning:
+    
+    print("-----------------------------------------------------")
+    print(
+        """
+        Yin's Money Managmeent Package 
+        Copyright © YINS CAPITAL, 2009 – Present
+        For more information, please go to www.YinsCapital.com
+        """ )
+    print("README:")
+    print("This script has the following functions:")
+    print(
     """
-    README:
-    This script has the following functions:
     (1) iscore(): this function computes the I-score of selected X at predicting Y
     (2) BDA(): this function runs through Backward Dropping Algorithm once
     (3) InteractionLearning(): this function runs many rounds of BDA and finalize the variables selcted according to I-score
     """
+    )
+    print("-----------------------------------------------------")
+
     # Define function
     def iscore(X, y):
         # Environment Initiation
