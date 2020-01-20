@@ -1,6 +1,6 @@
 class InteractionBasedLearning:
     
-    print("-----------------------------------------------------")
+    print("---------------------------------------------------------------------")
     print(
         """
         Yin's Money Managmeent Package 
@@ -13,10 +13,11 @@ class InteractionBasedLearning:
     """
     (1) iscore(): this function computes the I-score of selected X at predicting Y
     (2) BDA(): this function runs through Backward Dropping Algorithm once
-    (3) InteractionLearning(): this function runs many rounds of BDA and finalize the variables selcted according to I-score
+    (3) InteractionLearning(): this function runs many rounds of BDA and 
+                               finalize the variables selcted according to I-score
     """
     )
-    print("-----------------------------------------------------")
+    print("---------------------------------------------------------------------")
 
     # Define function
     def iscore(X, y):
@@ -29,8 +30,7 @@ class InteractionBasedLearning:
         # Create Partition
         partition = X.iloc[:, 0].astype(str)
         if X.shape[1] >= 2:
-            for i in range(1, X.shape[1]):
-                partition = partition.astype(str).str.cat(X.iloc[:, i].astype(str), sep ="_")
+            partition = partition.astype(str).str.cat(X.iloc[:, 1::].astype(str), sep ="_")
         else:
             partition = partition
 
@@ -123,15 +123,16 @@ class InteractionBasedLearning:
         listInfluenceScore = []
         from tqdm import tqdm
         for i in tqdm(range(total_rounds)):
-            oneDraw = InteractionBasedLearning.BDA(X=X_train, y=y_train, num_initial_draw=num_initial_draw,
-                                                   TYPE=TYPE)
+            oneDraw = InteractionBasedLearning.BDA(X=X_train, y=y_train, num_initial_draw=num_initial_draw, TYPE=TYPE)
             listVariableModule.append([np.array(oneDraw['newX'].columns)])
             listInfluenceScore.append(oneDraw['MaxIscore'])
         end = time.time()
         
         # Time Check
         if verbatim == True: 
-            print('Time Consumption:', end - start)
+            print('Time Consumption (in sec):', round(end - start, 2))
+            print('Time Consumption (in min):', round((end - start)/60, 2))
+            print('Time Consumption (in hr):', round((end - start)/60/60, 2))
         
         # Update Features
         listVariableModule_copy = listVariableModule
@@ -170,8 +171,7 @@ class InteractionBasedLearning:
             # Create Partition
             partition = X.iloc[:, 0].astype(str)
             if X.shape[1] >= 2:
-                for i in range(1, X.shape[1]):
-                    partition = partition.astype(str).str.cat(X.iloc[:, i].astype(str), sep ="_")
+                partition = partition.astype(str).str.cat(X.iloc[:, 1::].astype(str), sep ="_")
             else:
                 partition = partition
 
