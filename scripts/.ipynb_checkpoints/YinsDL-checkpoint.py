@@ -1,16 +1,24 @@
 class YinsDL:
-
-    """
-    Yin's Deep Learning Package 
-    Copyright © YINS CAPITAL, 2009 – Present
-    """
+    
+    print("---------------------------------------------------------------------")
+    print(
+        """
+        Yin's Deep Learning Package 
+        Copyright © YINS CAPITAL, 2009 – Present
+        For more information, please go to www.YinsCapital.com
+        """ )
+    print("---------------------------------------------------------------------")
 
    # Define function
     def NN3_Classifier(
         X_train, y_train, X_test, y_test, 
         l1_act='relu', l2_act='relu', l3_act='softmax',
         layer1size=128, layer2size=64, layer3size=2,
-        num_of_epochs=10):
+        optimizer='adam',
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy'],
+        num_of_epochs=10,
+        verbose=True):
         
         """
         MANUAL:
@@ -32,7 +40,7 @@ class YinsDL:
         print(X_train.shape, X_test.shape)
         print(y_train)
 
-        testresult = DL_NN_Classification(X_train, y_train, X_test, y_test, 
+        testresult = NN3_Classifier(X_train, y_train, X_test, y_test, 
                                  l1_act='relu', l2_act='relu', l3_act='softmax',
                                  layer1size=128, layer2size=64, layer3size=2,
                                  num_of_epochs=50)
@@ -46,7 +54,8 @@ class YinsDL:
         import numpy as np
         import matplotlib.pyplot as plt
 
-        print(tf.__version__)
+        if verbose:
+            print(tf.__version__)
 
         # Normalize
         # Helper Function
@@ -62,11 +71,13 @@ class YinsDL:
             keras.layers.Dense(units=layer2size, activation=l2_act),
             keras.layers.Dense(units=layer3size, activation=l3_act)
         ])
+        if verbose:
+            model.summary()
 
         # Compile
-        model.compile(optimizer='adam',
-                      loss='sparse_categorical_crossentropy',
-                      metrics=['accuracy'])
+        model.compile(optimizer=optimizer,
+                      loss=loss,
+                      metrics=metrics)
 
         # Model Fitting
         model.fit(X_train, y_train, epochs=num_of_epochs)
@@ -81,7 +92,6 @@ class YinsDL:
         confusion = confusion_matrix(y_test, np.argmax(predictions, axis=1))
         confusion = pd.DataFrame(confusion)
         test_acc = sum(np.diag(confusion)) / sum(sum(np.array(confusion)))
-        """ Code Ends Here"""
 
         # Output
         return {

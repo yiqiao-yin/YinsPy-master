@@ -3,7 +3,7 @@ class InteractionBasedLearning:
     print("---------------------------------------------------------------------")
     print(
         """
-        Yin's Money Managmeent Package 
+        Yin's Interaction-based Learning Statistical Package 
         Copyright © YINS CAPITAL, 2009 – Present
         For more information, please go to www.YinsCapital.com
         """ )
