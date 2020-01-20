@@ -55,6 +55,7 @@ class YinsDL:
         import matplotlib.pyplot as plt
 
         if verbose:
+            print("Tensorflow Version:")
             print(tf.__version__)
 
         # Normalize
@@ -72,6 +73,7 @@ class YinsDL:
             keras.layers.Dense(units=layer3size, activation=l3_act)
         ])
         if verbose:
+            print("Summary of Network Architecture:")
             model.summary()
 
         # Compile
@@ -92,6 +94,12 @@ class YinsDL:
         confusion = confusion_matrix(y_test, np.argmax(predictions, axis=1))
         confusion = pd.DataFrame(confusion)
         test_acc = sum(np.diag(confusion)) / sum(sum(np.array(confusion)))
+        
+        # Print
+        if verbose:
+            print("Confusion Matrix:")
+            print(confusion)
+            print("Test Accuracy:", round(test_acc, 4))
 
         # Output
         return {
