@@ -36,17 +36,17 @@ class InteractionBasedLearning:
 
         # Local Information
         list_of_partitions = pd.DataFrame(partition.value_counts())
-        Pi = pd.DataFrame(list_of_partitions.index)
-        local_n = pd.DataFrame(list_of_partitions.iloc[:, :])
+        Pi                 = pd.DataFrame(list_of_partitions.index)
+        local_n            = pd.DataFrame(list_of_partitions.iloc[:, :])
 
         # Compute Influence Score:
         import collections
-        n = X.shape[0]
-        Y_bar = y.mean()
-        grouped = pd.DataFrame({'y': y, 'X': partition})
+        n                 = X.shape[0]
+        Y_bar             = y.mean()
+        grouped           = pd.DataFrame({'y': y, 'X': partition})
         local_mean_vector = pd.DataFrame(grouped.groupby('X').mean())
-        local_n = grouped.groupby('X').count()['y']
-        iscore = np.sum(np.array(local_n**2).reshape(1, local_n.shape[0]) * np.array([(local_mean_vector['y'] - Y_bar)**2])) / np.std(y) / n
+        local_n           = grouped.groupby('X').count()['y']
+        iscore = np.sum(np.array(local_n**2).reshape(1,local_n.shape[0])*np.array([(local_mean_vector['y']-Y_bar)**2]))/np.std(y)/n
 
         # Output
         return {
@@ -118,7 +118,7 @@ class InteractionBasedLearning:
         X_train, X_test, y_train, y_test = train_test_split(newX, y, test_size=testSize, random_state = 0)
         
         # Start Learning
-        start = time.time()
+        start              = time.time()
         listVariableModule = []
         listInfluenceScore = []
         from tqdm import tqdm
@@ -137,8 +137,8 @@ class InteractionBasedLearning:
         # Update Features
         listVariableModule_copy = listVariableModule
         listInfluenceScore_copy = listInfluenceScore
-        selectedNom = listVariableModule[listInfluenceScore.index(np.max(listInfluenceScore))]
-        informativeX = pd.DataFrame(newX[selectedNom[0]])
+        selectedNom             = listVariableModule[listInfluenceScore.index(np.max(listInfluenceScore))]
+        informativeX            = pd.DataFrame(newX[selectedNom[0]])
         listVariableModule_copy = np.delete(listVariableModule_copy, listInfluenceScore_copy.index(np.max(listInfluenceScore)))
         listInfluenceScore_copy = np.delete(listInfluenceScore_copy, listInfluenceScore_copy.index(np.max(listInfluenceScore)))
 
