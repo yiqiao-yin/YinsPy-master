@@ -470,7 +470,7 @@ class YinsDL:
    # Define function
     def C2NN3_Classifier(
         X_train, y_train, X_test, y_test, 
-        inputSHAPEwidth=10, inputSHAPElenth=3,
+        inputSHAPEwidth1=10, inputSHAPElenth1=3,
         inputSHAPEwidth2=8, inputSHAPElenth2=9,
         filter1 = [[1,0], [0,1]],
         filter2 = [[1,0], [0,1]],
@@ -508,7 +508,7 @@ class YinsDL:
 
                 testresult = C2NN3_Classifier(
                     X_train, y_train, X_test, y_test, 
-                    inputSHAPEwidth=10, inputSHAPElenth=3,
+                    inputSHAPEwidth1=10, inputSHAPElenth1=3,
                     inputSHAPEwidth2=8, inputSHAPElenth2=9,
                     filter1 = [[1,0], [0,1]],
                     filter2 = [[1,0], [0,1]],
@@ -548,8 +548,8 @@ class YinsDL:
         X_test = X_test.apply(helpNormalize, axis=1)
         
         # Convolutional Operation
-        X_train = np.reshape(np.array(X_train), (X_train.shape[0], inputSHAPEwidth, inputSHAPElenth))
-        X_test = np.reshape(np.array(X_test), (X_test.shape[0], inputSHAPEwidth, inputSHAPElenth))
+        X_train = np.reshape(np.array(X_train), (X_train.shape[0], inputSHAPEwidth1, inputSHAPElenth1))
+        X_test = np.reshape(np.array(X_test), (X_test.shape[0], inputSHAPEwidth1, inputSHAPElenth1))
         if verbose:
             print('Shapes of X in training set', X_train.shape, 'Shapes of X in test set:', X_test.shape)
 
@@ -580,7 +580,7 @@ class YinsDL:
                 pd.DataFrame([YinsConvOp(incidence=i, X=X_train, unitFilter=filter1)]) ])
         end = time.time()
         # Time Check
-        if verbatim == True: 
+        if verbose == True: 
             print('The 1st convolutional layer is done.')
             print('Time Consumption (in sec):', round(end - start, 2))
             print('Time Consumption (in min):', round((end - start)/60, 2))
@@ -600,7 +600,7 @@ class YinsDL:
                 pd.DataFrame([YinsConvOp(incidence=i, X=X_train_new_copy, unitFilter=filter2)]) ])
         end = time.time()
         # Time Check
-        if verbatim == True: 
+        if verbose == True: 
             print("The 2nd convoluational layer is done. Shape of X in training set:", X_train_new_copy.shape)
             print('Time Consumption (in sec):', round(end - start, 2))
             print('Time Consumption (in min):', round((end - start)/60, 2))
@@ -626,7 +626,7 @@ class YinsDL:
         model.fit(X_train_new, y_train, epochs=num_of_epochs)
         end = time.time()
         # Time Check
-        if verbatim == True: 
+        if verbose == True: 
             print('Training Completed.')
             print('Time Consumption (in sec):', round(end - start, 2))
             print('Time Consumption (in min):', round((end - start)/60, 2))
