@@ -294,6 +294,174 @@ class YinsDL:
         }
     # End of function
 
+   # Define function
+    def C1NN3_Classifier(
+        X_train, y_train, X_test, y_test, 
+        inputSHAPEwidth=10, inputSHAPElenth=3,
+        filter1 = [[1,0], [0,1]],
+        l1_act='relu', l2_act='relu', l3_act='softmax',
+        layer1size=128, layer2size=64, layer3size=2,
+        optimizer='adam',
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy'],
+        num_of_epochs=10,
+        plotROC=True,
+        verbose=True):
+        
+        """
+        MANUAL:
+        
+        # One can use the following example.
+        house_sales = pd.read_csv('../data/kc_house_data.csv')
+        house_sales.head(3)
+        house_sales = house_sales.drop(['id', 'zipcode', 'lat', 'long', 'date'], axis=1)
+        house_sales.info()
+
+        X_all = house_sales.drop('price', axis=1)
+        y = np.log(house_sales.price)
+        y_binary = (y > y.mean()).astype(int)
+        y_binary
+        X_all.head(3), y_binary.head(3)
+
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X_all, y_binary, test_size=0.3, random_state=0)
+        print(X_train.shape, X_test.shape)
+        print(y_train)
+
+        testresult = NN3_Classifier(X_train, y_train, X_test, y_test, 
+                                 l1_act='relu', l2_act='relu', l3_act='softmax',
+                                 layer1size=128, layer2size=64, layer3size=2,
+                                 num_of_epochs=50)
+        """
+
+        # TensorFlow and tf.keras
+        import tensorflow as tf
+        from tensorflow import keras
+
+        # Helper libraries
+        import numpy as np
+        import pandas as pd
+        import matplotlib.pyplot as plt
+
+        if verbose:
+            print("Tensorflow Version:")
+            print(tf.__version__)
+
+        # Normalize
+        # Helper Function
+        def helpNormalize(X):
+            return (X - X.mean()) / np.std(X)
+
+        X_train = X_train.apply(helpNormalize, axis=1)
+        X_test = X_test.apply(helpNormalize, axis=1)
+        
+        # Convolutional Operation
+        X_train = np.reshape(np.array(X_train), (X_train.shape[0], inputSHAPEwidth, inputSHAPElenth))
+        X_test = np.reshape(np.array(X_test), (X_test.shape[0], inputSHAPEwidth, inputSHAPElenth))
+        if verbose:
+            print('Shapes of X in training set', X_train.shape, 'Shapes of X in test set:', X_test.shape)
+
+        # Filter
+        filter1 = pd.DataFrame(filter1)
+        
+        # Convolutional Operation (called Yins to make it different from default function)
+        def YinsConvOp(incidence=0, X=X_train, unitFilter=filter1):
+            unitSample = []
+            for i in range(pd.DataFrame(X[incidence]).shape[0] - 1):
+                for j in range(pd.DataFrame(X[incidence]).shape[1] - 1):
+                    unitSample.append(
+                        np.multiply(pd.DataFrame(X[incidence]).iloc[i:(i+2), j:(j+2)], unitFilter).sum(axis=1).sum())
+            return unitSample
+
+        # Apply Operation
+        X_train_new = pd.DataFrame([YinsConvOp(incidence=0, X=X_train, unitFilter=filter1)])
+        for i in range(1, X_train.shape[0]):
+            X_train_new = pd.concat([
+                X_train_new,
+                pd.DataFrame([YinsConvOp(incidence=i, X=X_train, unitFilter=filter1)]) ])
+
+        # Model
+        model = tf.keras.Sequential([
+            keras.layers.Dense(units=layer1size, input_shape=[X_train_new.shape[1]]),
+            keras.layers.Dense(units=layer2size, activation=l2_act),
+            keras.layers.Dense(units=layer3size, activation=l3_act)
+        ])
+        if verbose:
+            print("Summary of Network Architecture:")
+            model.summary()
+
+        # Compile
+        model.compile(optimizer=optimizer,
+                      loss=loss,
+                      metrics=metrics)
+
+        # Model Fitting
+        model.fit(X_train_new, y_train, epochs=num_of_epochs)
+
+        # Prediction
+        X_test_new = pd.DataFrame([YinsConvOp(incidence=0, X=X_test, unitFilter=filter1)])
+        for i in range(1, X_test.shape[0]):
+            X_test_new = pd.concat([
+                X_test_new,
+                pd.DataFrame([YinsConvOp(incidence=i, X=X_test, unitFilter=filter1)]) ])
+        predictions = model.predict(X_test_new)
+
+        # Performance
+        from sklearn.metrics import confusion_matrix
+        import numpy as np
+        import pandas as pd
+        y_test_hat = np.argmax(predictions, axis=1)
+        confusion = confusion_matrix(y_test, y_test_hat)
+        confusion = pd.DataFrame(confusion)
+        test_acc = sum(np.diag(confusion)) / sum(sum(np.array(confusion)))
+        
+        # Print
+        if verbose:
+            print("Confusion Matrix:")
+            print(confusion)
+            print("Test Accuracy:", round(test_acc, 4))
+            
+        # ROCAUC
+        if layer3size == 2:
+            from sklearn.metrics import roc_curve, auc, roc_auc_score
+            fpr, tpr, thresholds = roc_curve(y_test, y_test_hat)
+            areaUnderROC = auc(fpr, tpr)
+            resultsROC = {
+                'false positive rate': fpr,
+                'true positive rate': tpr,
+                'thresholds': thresholds,
+                'auc': round(areaUnderROC, 3)
+            }
+            if verbose:
+                print(f'Test AUC: {areaUnderROC}')
+            if plotROC:
+                plt.figure()
+                plt.plot(fpr, tpr, color='r', lw=2, label='ROC curve')
+                plt.plot([0, 1], [0, 1], color='k', lw=2, linestyle='--')
+                plt.xlim([0.0, 1.0])
+                plt.ylim([0.0, 1.05])
+                plt.xlabel('False Positive Rate')
+                plt.ylabel('True Positive Rate')
+                plt.title('Receiver operating characteristic: \
+                          Area under the curve = {0:0.2f}'.format(areaUnderROC))
+                plt.legend(loc="lower right")
+                plt.show()
+        else: 
+            resultsROC = "Response not in two classes."
+        
+        # Output
+        return {
+            'Data': [X_train, y_train, X_test, y_test, X_train_new, X_test_new],
+            'Shape': [X_train.shape, len(y_train), X_test.shape, len(y_test)],
+            'Model Fitting': model,
+            'Performance': {
+                'response': {'response': y_test, 'estimated response': y_test_hat},
+                'test_acc': test_acc, 
+                'confusion': confusion
+            },
+            'Results of ROC': resultsROC
+        }
+    # End of function     
     
     # Define Function
     def RNN4_Regressor(
