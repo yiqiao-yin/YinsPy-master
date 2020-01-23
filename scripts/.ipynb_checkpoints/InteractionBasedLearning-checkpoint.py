@@ -192,10 +192,20 @@ class InteractionBasedLearning:
             for i in range(len(X)):
                 engineeredX.append(local_mean_vector.iloc[partition.iloc[i, ] == local_mean_vector.index, ].iloc[0, 0])
 
+            df1 = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)]
+            df1.reset_index(drop=True, inplace=True)
+            df2 = pd.DataFrame(engineeredX)
+            df2.reset_index(drop=True, inplace=True)
+            #df = pd.concat( [pd.DataFrame([]), df1, df2], axis=1) 
+            #df = df.iloc[:, 1::]
+
             # Concatenate:
-            new_X = pd.concat([new_X, 
-                               newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)],
-                               pd.DataFrame(engineeredX)], axis=1)
+            new_X = pd.concat([
+                new_X, 
+                df1,
+                df2
+            ], axis=1)
+
 
         # Output
         return {

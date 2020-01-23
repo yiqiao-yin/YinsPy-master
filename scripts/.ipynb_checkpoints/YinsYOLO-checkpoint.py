@@ -1,11 +1,13 @@
 class YinsYOLO:
 
+    print("-----------------------------------------------------")
     print(
     """
-    Yin's YOLO Package 
+    Yin's YOLO Package (For Quick Deployment)
     Copyright © YINS CAPITAL, 2009 – Present
     For more information, go to www.YinsCapital.com
     """ )
+    print("-----------------------------------------------------")
     
     def Personal_AI_Surveillance(whatObject = 'knife', useAdvancedYOLO = True, whichCam = 0):
         

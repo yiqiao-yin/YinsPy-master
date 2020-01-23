@@ -293,8 +293,135 @@ class YinsDL:
             'Results of ROC': resultsROC
         }
     # End of function
+    
+    # Define function
+    def plotOneImage(
+            initialPosX = 1,
+            initialPosY = 0,
+            boxWidth    = 1,
+            boxHeight   = 0,
+            linewidth   = 2,
+            edgecolor   = 'r',
+            IMAGE       = 0):
+        
+        import matplotlib.pyplot as plt
+        import matplotlib.patches as patches
+        from PIL import Image
+        import numpy as np
 
-   # Define function
+        im = np.array(IMAGE, dtype=np.uint8)
+
+        # Create figure and axes
+        fig,ax = plt.subplots(1)
+
+        # Display the image
+        ax.imshow(im)
+
+        # Create a Rectangle patch
+        rect = patches.Rectangle(
+            (initialPosX, initialPosY), boxWidth, boxHeight,
+            linewidth=linewidth, edgecolor=edgecolor, facecolor='none')
+
+        # Add the patch to the Axes
+        ax.add_patch(rect)
+
+        plt.show()
+    # End of function
+    
+    
+    # Define function
+    def ConvOperationC1(
+        X_train, y_train, X_test, y_test, 
+        inputSHAPEwidth=10, inputSHAPElenth=3,
+        filter1 = [[1,0], [0,1]], 
+        verbose=True, printManual=True):
+        
+        if printManual:
+            print("----------------------------------------------------------------------")
+            print("Manual")
+            print(
+                """
+                This script input X_train, y_train, X_test, y_test with selected input width and height 
+                as well as a filter. Then the script executes convolutional operation to compute new 
+                features from combination of original variables and the filter.
+
+                Note: the filter plays crucial role which is why this function the filter is user-friendly
+                      and can be updated as the user see fits.
+                
+                # Run
+                newDataGenerated = YinsDL.ConvOperationC1(
+                        X_train, y_train, X_test, y_test, 
+                        inputSHAPEwidth=10, inputSHAPElenth=3,
+                        filter1 = [[1,0], [0,1]], 
+                        verbose=True, printManual=True)
+                """ )
+            print("----------------------------------------------------------------------")
+        
+        # TensorFlow and tf.keras
+        import tensorflow as tf
+        from tensorflow import keras
+
+        # Helper libraries
+        import numpy as np
+        import pandas as pd
+        import matplotlib.pyplot as plt
+
+        if verbose:
+            print("Tensorflow Version:")
+            print(tf.__version__)
+
+        # Normalize
+        # Helper Function
+        def helpNormalize(X):
+            return (X - X.mean()) / np.std(X)
+
+        X_train = X_train.apply(helpNormalize, axis=1)
+        X_test = X_test.apply(helpNormalize, axis=1)
+        
+        # Convolutional Operation
+        X_train = np.reshape(np.array(X_train), (X_train.shape[0], inputSHAPEwidth, inputSHAPElenth))
+        X_test = np.reshape(np.array(X_test), (X_test.shape[0], inputSHAPEwidth, inputSHAPElenth))
+        if verbose:
+            print('Shapes of X in training set', X_train.shape, 'Shapes of X in test set:', X_test.shape)
+
+        # Filter
+        filter1 = pd.DataFrame(filter1)
+        
+        # Convolutional Operation (called Yins to make it different from default function)
+        def YinsConvOp(incidence=0, X=X_train, unitFilter=filter1):
+            filterHeight = unitFilter.shape[0]
+            filterWidth = unitFilter.shape[1]
+            unitSample = []
+            for i in range(pd.DataFrame(X[incidence]).shape[0] - (filterHeight - 1)):
+                for j in range(pd.DataFrame(X[incidence]).shape[1] - (filterWidth - 1)):
+                    unitSample.append(
+                        np.multiply(
+                            pd.DataFrame(X[incidence]).iloc[i:(i + filterWidth), j:(j + filterHeight)],
+                            unitFilter).sum(axis=1).sum())
+            return unitSample
+
+        # Apply Operation
+        X_train_new = pd.DataFrame([YinsConvOp(incidence=0, X=X_train, unitFilter=filter1)])
+        for i in range(1, X_train.shape[0]):
+            X_train_new = pd.concat([
+                X_train_new,
+                pd.DataFrame([YinsConvOp(incidence=i, X=X_train, unitFilter=filter1)]) ])
+            
+        # For Prediction
+        X_test_new = pd.DataFrame([YinsConvOp(incidence=0, X=X_test, unitFilter=filter1)])
+        for i in range(1, X_test.shape[0]):
+            X_test_new = pd.concat([
+                X_test_new,
+                pd.DataFrame([YinsConvOp(incidence=i, X=X_test, unitFilter=filter1)]) ])
+            
+        # Output
+        return {
+            'Data': [X_train, y_train, X_test, y_test, X_train_new, X_test_new],
+            'Shape': [X_train.shape, len(y_train), X_test.shape, len(y_test)]
+        }
+    # End function
+
+    # Define function
     def C1NN3_Classifier(
         X_train, y_train, X_test, y_test, 
         inputSHAPEwidth=10, inputSHAPElenth=3,
