@@ -165,7 +165,7 @@ class InteractionBasedLearning:
             if nameExists:
                 X = newX[briefResult.iloc[ii, ][0][0]]
             else:
-                X = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)]
+                X = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(TYPE)]
             y = y
 
             # Create Partition
@@ -192,12 +192,13 @@ class InteractionBasedLearning:
             for i in range(len(X)):
                 engineeredX.append(local_mean_vector.iloc[partition.iloc[i, ] == local_mean_vector.index, ].iloc[0, 0])
 
-            df1 = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(int)]
+            if nameExists:
+                df1 = newX[briefResult.iloc[ii, ][0][0]]
+            else: 
+                df1 = newX.iloc[:, briefResult.iloc[ii, ][0][0].astype(TYPE)]
             df1.reset_index(drop=True, inplace=True)
             df2 = pd.DataFrame(engineeredX)
             df2.reset_index(drop=True, inplace=True)
-            #df = pd.concat( [pd.DataFrame([]), df1, df2], axis=1) 
-            #df = df.iloc[:, 1::]
 
             # Concatenate:
             new_X = pd.concat([
