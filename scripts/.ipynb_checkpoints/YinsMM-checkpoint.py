@@ -3,7 +3,7 @@ class YinsMM:
     print("-----------------------------------------------------")
     print(
         """
-        Yin's Money Managmeent Package 
+        Yin's Money Managment Package 
         Copyright © YINS CAPITAL, 2009 – Present
         For more information, please go to www.YinsCapital.com
         """ )
@@ -109,9 +109,9 @@ class YinsMM:
 
     
     # Define function
-    def YinsTimer(start_date, end_date, ticker, figsize=(15,6), 
-                  LB=-0.01, UB=0.01, 
-                  plotGraph=True, verbose=True, printManual=True):
+    def YinsTimer(
+        start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, 
+        plotGraph=True, verbose=True, printManual=True, gotoSEC=True):
         if printManual:
             print("------------------------------------------------------------------------------")
             print("MANUAL: ")
@@ -125,10 +125,9 @@ class YinsMM:
             start_date = '2010-01-01'
             end_date   = '2020-01-18'
             ticker = 'FB'
-            temp = YinsMM.YinsTimer(start_date, end_date, ticker, 
-                                    figsize=(<<width of plot>>, <<height of plot>>), 
-                                    LB=<<some negative value>>, UB=<<some positive value>>, 
-                                    plotGraph=True, verbose=True)
+            temp = YinsMM.YinsTimer(
+                    start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, 
+                    plotGraph=True, verbose=True, printManual=True, gotoSEC=True)
             """ )
             print("Manual ends here.")
             print("------------------------------------------------------------------------------")
@@ -137,7 +136,12 @@ class YinsMM:
         import pandas as pd
         import numpy as np
         import yfinance as yf
+        import time
+                
+        # Time
+        start = time.time()
         
+        # Get Data
         dta = yf.download(ticker, start_date, end_date)
         dta_stock = pd.DataFrame(dta)
 
@@ -223,6 +227,15 @@ class YinsMM:
                 print("---")
                 print(f"Basic Statistics for Buy Sell Signals: {basicStats}")
                 print("Note: Change LB and UB to ensure average buy sell signals fall beneath 2%.")
+                print("---")
+                url_front = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK="
+                url_back = "&type=10-K&dateb=&owner=exclude&count=40"
+                url_all = str(url_front + ticker + url_back)
+                print("For annual report on SEC site, please go to: ")
+                print(url_all)
+                if gotoSEC:
+                    import webbrowser
+                    webbrowser.open(url_all)
                 print("----------------------------------------------------------------------------------------------------")
         
         # Get More Data:
@@ -241,6 +254,13 @@ class YinsMM:
             'show analysts recommendations': tck.recommendations,
             'show next event (earnings, etc)': tck.calendar
         }
+        
+        # Time
+        end = time.time()
+        if verbose == True: 
+            print('Time Consumption (in sec):', round(end - start, 2))
+            print('Time Consumption (in min):', round((end - start)/60, 2))
+            print('Time Consumption (in hr):', round((end - start)/60/60, 2))
 
         # Return
         return {'data': dta_stock, 
@@ -250,6 +270,8 @@ class YinsMM:
                 'estimatedRisk': np.std(dta_stock['Normalize Return']),
                 'ALL_DATA': ALL_DATA
                }
+    # End function
+
     
     # Define function
     def CAPM(tickers, start_date, end_date, verbose=True):
@@ -341,32 +363,32 @@ class YinsMM:
     
     # Define Function
     def RNN3_Regressor(
-        start_date = '2013-01-01',
-        end_date   = '2019-12-6',
-        tickers    = 'AAPL', cutoff = 0.8,
-        l1_units = 50, l2_units = 50, l3_units = 50,
-        optimizer = 'adam', loss = 'mean_squared_error',
-        epochs = 50, batch_size = 64,
-        plotGraph = True,
-        verbatim = True
-    ):
-        """
-        MANUAL: Try run the following line by line in a Python Notebook
+        start_date =   '2013-01-01', end_date   =   '2019-12-6',
+        tickers    =   'AAPL',       cutoff     =   0.8,
+        l1_units   =   50,           l2_units   =   50,           l3_units   =   50,
+        optimizer  =   'adam',       loss       =   'mean_squared_error',
+        epochs     =   50,           batch_size =   64,
+        plotGraph  =   True,         verbose   =   True ):
         
-        # Load
-        %run "../scripts/YinsDL.py"
-        
-        # Run
-        tmp = YinsDL.RNN4_Regressor(
-            start_date = '2013-01-01',
-            end_date   = '2019-12-6',
-            tickers    = 'FB', cutoff = 0.8,
-            l1_units = 50, l2_units = 50, l3_units = 50, l4_units = 50,
-            optimizer = 'adam', loss = 'mean_squared_error',
-            epochs = 30, batch_size = 64,
-            plotGraph = True,
-            verbatim = True )
-        """
+        if verbose:
+            print("------------------------------------------------------------------------------")
+            print(
+                """
+                MANUAL: Try run the following line by line in a Python Notebook
+
+                # Load
+                %run "../scripts/YinsDL.py"
+
+                # Run
+                tmp = RNN3_Regressor(
+                        start_date =   '2013-01-01', end_date   =   '2019-12-6',
+                        tickers    =   'AAPL',       cutoff     =   0.8,
+                        l1_units   =   50,           l2_units   =   50,           l3_units   =   50,
+                        optimizer  =   'adam',       loss       =   'mean_squared_error',
+                        epochs     =   50,           batch_size =   64,
+                        plotGraph  =   True,         verbose   =   True )
+                """ )
+            print("------------------------------------------------------------------------------")
         
         # Initiate Environment
         from scipy import stats
@@ -421,7 +443,7 @@ class YinsMM:
 
         X_train, y_train = np.array(X_train), np.array(y_train)
         X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in training set:')
             print('Shape of X:', X_train.shape, '; Shape of Y:', len(y_train))
@@ -436,7 +458,7 @@ class YinsMM:
 
         X_test, y_test = np.array(X_test), np.array(y_test)
         X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in testing set:')
             print('Shape of X:', X_test.shape, ': Shape of Y:', len(y_test))
@@ -448,8 +470,10 @@ class YinsMM:
         from keras.layers import Dense
         from keras.layers import LSTM
         from keras.layers import Dropout
+        import time
 
         # Initialize RNN
+        begintime = time.time()
         regressor = Sequential()
 
         # Adding the first LSTM layer and some Dropout regularisation
@@ -466,11 +490,18 @@ class YinsMM:
 
         # Adding the output layer
         regressor.add(Dense(units = 1))
+        endtime = time.time()
 
         # Summary
-        if verbatim:
+        if verbose:
+            print("--------------------------------------------")
             print('Let us investigate the sequential models.')
             regressor.summary()
+            print("--------------------------------------------")
+            print("Time Consumption (in sec):", endtime - begintime)
+            print("Time Consumption (in min):", round((endtime - begintime)/60, 2))
+            print("Time Consumption (in hr):", round((endtime - begintime)/60)/60, 2)
+            print("--------------------------------------------")
 
         ### Train RNN
         # Compiling the RNN
@@ -482,7 +513,7 @@ class YinsMM:
         end = time.time()
         
         # Time Check
-        if verbatim == True: 
+        if verbose == True: 
             print('Time Consumption:', end - start)
 
         ### Predictions
@@ -508,7 +539,7 @@ class YinsMM:
         import math
         from sklearn.metrics import mean_squared_error
         rmse = np.sqrt(mean_squared_error(real_stock_price, predicted_stock_price))
-        if verbatim:
+        if verbose:
             print(f'---------------------------------------------------------------------------------')
             print(f'Root Mean Square Error is {round(rmse,2)} for test set.')
             print(f'------------------')
@@ -536,7 +567,7 @@ class YinsMM:
         optimizer = 'adam', loss = 'mean_squared_error',
         epochs = 50, batch_size = 64,
         plotGraph = True,
-        verbatim = True
+        verbose = True
     ):
         """
         MANUAL: Try run the following line by line in a Python Notebook
@@ -553,7 +584,7 @@ class YinsMM:
             optimizer = 'adam', loss = 'mean_squared_error',
             epochs = 30, batch_size = 64,
             plotGraph = True,
-            verbatim = True )
+            verbose = True )
         """
         
         # Initiate Environment
@@ -609,7 +640,7 @@ class YinsMM:
 
         X_train, y_train = np.array(X_train), np.array(y_train)
         X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in training set:')
             print('Shape of X:', X_train.shape, '; Shape of Y:', len(y_train))
@@ -624,7 +655,7 @@ class YinsMM:
 
         X_test, y_test = np.array(X_test), np.array(y_test)
         X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in testing set:')
             print('Shape of X:', X_test.shape, ': Shape of Y:', len(y_test))
@@ -659,7 +690,7 @@ class YinsMM:
         # Adding the output layer
         regressor.add(Dense(units = 1))
 
-        if verbatim:
+        if verbose:
             print('Let us investigate the summary of the sequential models.')
             regressor.summary()
 
@@ -673,8 +704,12 @@ class YinsMM:
         end = time.time()
         
         # Time Check
-        if verbatim == True: 
-            print('Time Consumption:', end - start)
+        if verbose == True: 
+            print("---------------------------------------------------")
+            print('Time Consumption (in sec):', end - start)
+            print('Time Consumption (in min):', round((end - start)/60, 2))
+            print('Time Consumption (in hr):', round(((end - start)/60)/60), 2)
+            print("---------------------------------------------------")
 
         ### Predictions
         predicted_stock_price = regressor.predict(X_test)
@@ -698,7 +733,7 @@ class YinsMM:
         import math
         from sklearn.metrics import mean_squared_error
         rmse = np.sqrt(mean_squared_error(real_stock_price, predicted_stock_price))
-        if verbatim:
+        if verbose:
             print(f'---------------------------------------------------------------------------------')
             print(f'Root Mean Square Error is {round(rmse,2)} for test set.')
             print(f'------------------')
@@ -728,7 +763,7 @@ class YinsMM:
         optimizer = 'adam', loss = 'mean_squared_error',
         epochs = 50, batch_size = 64,
         plotGraph = True,
-        verbatim = True
+        verbose = True
     ):
         """
         MANUAL: Try run the following line by line in a Python Notebook
@@ -747,7 +782,7 @@ class YinsMM:
             optimizer = 'adam', loss = 'mean_squared_error',
             epochs = 30, batch_size = 64,
             plotGraph = True,
-            verbatim = True )
+            verbose = True )
         """
         
         # Initiate Environment
@@ -803,7 +838,7 @@ class YinsMM:
 
         X_train, y_train = np.array(X_train), np.array(y_train)
         X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in training set:')
             print('Shape of X:', X_train.shape, '; Shape of Y:', len(y_train))
@@ -818,7 +853,7 @@ class YinsMM:
 
         X_test, y_test = np.array(X_test), np.array(y_test)
         X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-        if verbatim:
+        if verbose:
             print('--------------------------------------------------------------------')
             print('Shape for data frame in testing set:')
             print('Shape of X:', X_test.shape, ': Shape of Y:', len(y_test))
@@ -877,7 +912,7 @@ class YinsMM:
         # Adding the output layer
         regressor.add(Dense(units = 1))
 
-        if verbatim:
+        if verbose:
             print('Let us investigate the summary of the sequential models.')
             regressor.summary()
 
@@ -891,7 +926,7 @@ class YinsMM:
         end = time.time()
         
         # Time Check
-        if verbatim == True: 
+        if verbose == True: 
             print('Time Consumption:', end - start)
 
         ### Predictions
@@ -916,7 +951,7 @@ class YinsMM:
         import math
         from sklearn.metrics import mean_squared_error
         rmse = np.sqrt(mean_squared_error(real_stock_price, predicted_stock_price))
-        if verbatim:
+        if verbose:
             print(f'---------------------------------------------------------------------------------')
             print(f'Root Mean Square Error is {round(rmse,2)} for test set.')
             print(f'------------------')
@@ -934,3 +969,183 @@ class YinsMM:
             'Test Error': rmse
         }
     # End function
+    
+        
+    # Define function
+    def YinsInvestigator(
+        start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, pastNdays=10,
+        plotGraph=True, verbose=True, printManual=True, printSummary=True, gotoSEC=True, showInteractive=True):
+        if printManual:
+            print("------------------------------------------------------------------------------")
+            print("MANUAL: ")
+            print("Try run the following line by line in a Python Notebook.")
+            print(
+            f"""
+            # Load
+            %run "../scripts/YinsMM.py"
+
+            # Run
+            start_date = '2010-01-01'
+            end_date   = '2020-01-18'
+            ticker = '{ticker}'
+            temp = YinsMM.YinsTimer(
+                    start_date, end_date, ticker, figsize=(15,6), LB=-0.01, UB=0.01, 
+                    plotGraph=True, verbose=True, printManual=True, gotoSEC=True)
+            """ )
+            print("Manual ends here.")
+            print("------------------------------------------------------------------------------")
+        
+        # Initiate Environment
+        import pandas as pd
+        import numpy as np
+        import yfinance as yf
+        import time
+        import hvplot.pandas
+        import plotly.express as px
+                
+        # Time
+        start = time.time()
+        
+        # Get Data
+        dta = yf.download(ticker, start_date, end_date)
+        dta_stock = pd.DataFrame(dta)
+        
+        # Get More Data:
+        tck = yf.Ticker(ticker)
+        ALL_DATA = {
+            'get stock info': tck.info,
+            'get historical market data': tck.history(period="max"),
+            'show actions (dividends, splits)': tck.actions,
+            'show dividends': tck.dividends,
+            'show splits': tck.splits,
+            'show financials': [tck.financials, tck.quarterly_financials],
+            'show balance sheet': [tck.balance_sheet, tck.quarterly_balance_sheet],
+            'show cashflow': [tck.cashflow, tck.quarterly_cashflow],
+            'show earnings': [tck.earnings, tck.quarterly_earnings],
+            'show sustainability': tck.sustainability,
+            'show analysts recommendations': tck.recommendations,
+            'show next event (earnings, etc)': tck.calendar }
+
+        # Define Checking Functions:
+        if LB > 0:
+            print('Lower Bound (LB) for Signal is not in threshold and is set to default value: -0.01')
+            LB = -0.01
+        if UB < 0:
+            print('Upper Bound (UB) for Signal is not in threshold and is set to default value: +0.01')
+            UB = +0.01
+        def chk(row):
+            if row['aveDIST'] < LB or row['aveDIST'] > UB:
+                val = row['aveDIST']
+            else:
+                val = 0
+            return val
+
+        # Generate Data
+        df_stock = dta_stock
+        close = df_stock['Adj Close']
+        df_stock['Normalize Return'] = close / close.shift() - 1
+
+        # Generate Signal:
+        if len(dta_stock) < 200:
+            data_for_plot = []
+            basicStats = []
+            print('Stock went IPO within a year.')
+        else:
+            # Create Features
+            df_stock['SMA12'] = close.rolling(window=12).mean()
+            df_stock['SMA20'] = close.rolling(window=20).mean()
+            df_stock['SMA50'] = close.rolling(window=50).mean()
+            df_stock['SMA100'] = close.rolling(window=100).mean()
+            df_stock['SMA200'] = close.rolling(window=200).mean()
+            df_stock['DIST12'] = close / df_stock['SMA12'] - 1
+            df_stock['DIST20'] = close / df_stock['SMA20'] - 1
+            df_stock['DIST50'] = close / df_stock['SMA50'] - 1
+            df_stock['DIST100'] = close / df_stock['SMA100'] - 1
+            df_stock['DIST200'] = close / df_stock['SMA200'] - 1
+            df_stock['aveDIST'] = (df_stock['DIST12'] + df_stock['DIST20'] + 
+                                   df_stock['DIST50'] + df_stock['DIST100'] + df_stock['DIST200'])/5
+            df_stock['Signal'] = df_stock.apply(chk, axis = 1)
+
+            # Plot
+            import matplotlib.pyplot as plt
+            if plotGraph:
+                # No. 1: the first time-series graph plots adjusted closing price and multiple moving averages
+                data_for_plot_chart = df_stock[['Adj Close', 'SMA12', 'SMA20', 'SMA50', 'SMA100', 'SMA200']]
+                data_for_plot_chart.plot(figsize = figsize)
+                plt.show()
+                # No. 2: the second time-series graph plots signals generated from investigating distance matrix
+                data_for_plot_signal = df_stock[['Signal', 'aveDIST']]
+                data_for_plot_signal.plot(figsize = figsize)
+                plt.show()
+            if showInteractive:
+                chart_hvplot  = data_for_plot_chart.hvplot(ylabel='Price (in USD)', alpha=0.7)
+                signal_hvplot = data_for_plot_signal.hvplot(
+                    title='Average Distance from Price to Moving Averages & Signals (by LB and UB)', alpha=0.7)
+                chart_signal_plotly = px.scatter(df_stock, x="SMA12", y="Adj Close", size="aveDIST", color="Signal")
+        
+            # Check Statistics:
+            SIGNAL      = df_stock['Signal']
+            LENGTH      = len(SIGNAL)
+            count_plus  = 0
+            count_minus = 0
+            for i in range(LENGTH):
+                if float(SIGNAL.iloc[i,]) > 0:
+                    count_plus += 1
+            for i in range(LENGTH):
+                if float(SIGNAL.iloc[i,]) < 0:
+                    count_minus += 1
+            basicStats = {'AVE_BUY': round(np.sum(count_minus)/LENGTH, 4),
+                          'AVE_SELL': round(np.sum(count_plus)/LENGTH, 4) }
+            # Print
+            if verbose:
+                print("----------------------------------------------------------------------------------------------------")
+                print(f"Entered Stock has the following information:")
+                print(f'Ticker: {ticker}')
+                print("---")
+                if printSummary:
+                    print(f"Business Summary: {ALL_DATA['get stock info']['longBusinessSummary']}")
+                print("---")
+                print(f"Expted Return: {round(np.mean(dta_stock['Normalize Return']), 4)}")
+                print(f"Expted Risk (Volatility): {round(np.std(dta_stock['Normalize Return']), 4)}")
+                print(f"Reward-Risk Ratio (Daily Data): {round(np.mean(dta_stock['Normalize Return']) / np.std(dta_stock['Normalize Return']), 4)}")
+                print("---")
+                print("Tail of the 'Buy/Sell Signal' dataframe:")
+                print(pd.DataFrame(data_for_plot_signal).tail(pastNdays))
+                print("Note: ")
+                print("- positive values indicate 'sell' and negative values indicate 'buy'.")
+                print("- source: Go to https://yinscapital.com/research/ and click on 'Buy Signal from Limit Theorem'.")
+                print("---")
+                print(f"Basic Statistics for Buy Sell Signals: {basicStats}")
+                print("Note: Change LB and UB to ensure average buy sell signals fall beneath 2%.")
+                print("---")
+                sec_url_front = "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK="
+                sec_url_back = "&type=10-K&dateb=&owner=exclude&count=40"
+                sec_url_all = str(sec_url_front + ticker + sec_url_back)
+                print("For annual report on SEC site, please go to: ")
+                print(sec_url_all)
+                url_front_finviz = "https://finviz.com/quote.ashx?t="
+                url_finviz = str(url_front_finviz + ticker)
+                print("For news and charts on FinViz.com, please go to: ")
+                print(url_finviz)
+                if gotoSEC:
+                    import webbrowser
+                    webbrowser.open(sec_url_all)
+                    webbrowser.open(url_finviz)
+                print("----------------------------------------------------------------------------------------------------")
+                
+        # Time
+        end = time.time()
+        if verbose == True: 
+            print('Time Consumption (in sec):', round(end - start, 2))
+            print('Time Consumption (in min):', round((end - start)/60, 2))
+            print('Time Consumption (in hr):', round((end - start)/60/60, 2))
+
+        # Return
+        return {'data': dta_stock, 
+                'updated data': df_stock,
+                'resulting matrix': [data_for_plot_chart, data_for_plot_signal, chart_signal_plotly],
+                'basic statistics': basicStats,
+                'estimatedReturn': np.mean(dta_stock['Normalize Return']), 
+                'estimatedRisk': np.std(dta_stock['Normalize Return']),
+                'ALL_DATA': ALL_DATA,
+                'InterPlot': {'chart': chart_hvplot, 'signal': signal_hvplot}}
