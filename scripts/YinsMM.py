@@ -1081,7 +1081,8 @@ class YinsMM:
                 chart_hvplot  = data_for_plot_chart.hvplot(ylabel='Price (in USD)', alpha=0.7)
                 signal_hvplot = data_for_plot_signal.hvplot(
                     title='Average Distance from Price to Moving Averages & Signals (by LB and UB)', alpha=0.7)
-                chart_signal_plotly = px.scatter(df_stock, x="SMA12", y="Adj Close", size="aveDIST", color="Signal")
+                data_for_parallel = df_stock[['Adj Close', 'Signal', 'aveDIST']]
+                chart_signal_plotly = px.parallel_coordinates(data_for_parallel, color='Signal')
         
             # Check Statistics:
             SIGNAL      = df_stock['Signal']
@@ -1143,9 +1144,9 @@ class YinsMM:
         # Return
         return {'data': dta_stock, 
                 'updated data': df_stock,
-                'resulting matrix': [data_for_plot_chart, data_for_plot_signal, chart_signal_plotly],
+                'resulting matrix': [data_for_plot_chart, data_for_plot_signal],
                 'basic statistics': basicStats,
                 'estimatedReturn': np.mean(dta_stock['Normalize Return']), 
                 'estimatedRisk': np.std(dta_stock['Normalize Return']),
                 'ALL_DATA': ALL_DATA,
-                'InterPlot': {'chart': chart_hvplot, 'signal': signal_hvplot}}
+                'InterPlot': {'chart': chart_hvplot, 'signal': signal_hvplot, 'paraPlot': chart_signal_plotly}}
