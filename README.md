@@ -10,7 +10,7 @@ This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's 
 </p>
 
 - Copyright © Official python projects and products published by Yin's Capital.
-- Copyright © 2010 – 2019 Yiqiao Yin
+- Copyright © 2010 – Present Yiqiao Yin
 - Contact: Yiqiao Yin
 - Email: Yiqiao.Yin@YinsCapital.com
 

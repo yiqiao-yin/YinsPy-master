@@ -10,7 +10,7 @@ This is Yin's Python Project, YinsPy, github repo  offered by Mr. Yin at [Yin's 
 </p>
 
 - Copyright © Official python projects and products published by Yin's Capital.
-- Copyright © 2010 – 2019 Yiqiao Yin
+- Copyright © 2010 – Present Yiqiao Yin
 - Contact: Yiqiao Yin
 - Email: Yiqiao.Yin@YinsCapital.com
 
@@ -115,3 +115,5 @@ A field of artificial intelligence initiated by DARPA is called Explainable Arti
 The Explainable AI (XAI) Initiative aims to create a suite of machine learning techniques that: (1) Produce more explainable models, while maintaining a high level of learning performance (prediction accuracy); and (2) Enable human users to understand, appropriately trust, and effectively manage the emerging generation of artificially intelligent partners.
 
 - This notebook [Yin's Capital: XAI Initiatives](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_XAI_Initiatives.ipynb) takes the first step and move our R&D process to move along this direction. 
+
+- To illustrate our point, we start with UCI Breast Cancer data set. The data is provided by Dr. William H. Wolberg, General Surgery Dept. University of Wisconsin at Clinical Sciences Center and the python notebook is [here](https://github.com/yiqiao-yin/YinsPy/blob/master/scripts/python_XAI_UCIBreastCancerData.ipynb).
