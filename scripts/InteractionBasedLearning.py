@@ -4,7 +4,7 @@ class InteractionBasedLearning:
     print(
         """
         Yin's Interaction-based Learning Statistical Package 
-        Copyright © YINS CAPITAL, 2009 – Present
+        Copyright © YIQIAO YIN, 2017 – Present
         For more information, please go to www.YinsCapital.com
         """ )
     print("README:")
