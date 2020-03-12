@@ -4,7 +4,8 @@ class InteractionBasedLearning:
     print(
         """
         ################ Interaction-based Learning Statistical Package #################
-        ### For more information, please go to "Research" page of www.YinsCapital.com ###
+        ############## © All rights reserved with Professor Shawhwa Lo ##################
+        ##### Site: http://stat.columbia.edu/department-directory/name/shaw-hwa-lo/ #####
         """ )
     print("----------------------------------------------------------------------------------------------------")
     print("README:")
