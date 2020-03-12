@@ -1,12 +1,12 @@
 class InteractionBasedLearning:
     
-    print("---------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------------------------")
     print(
         """
-        Yin's Interaction-based Learning Statistical Package 
-        Copyright © YIQIAO YIN, 2017 – Present
-        For more information, please go to www.YinsCapital.com
+        ################ Interaction-based Learning Statistical Package #################
+        ### For more information, please go to "Research" page of www.YinsCapital.com ###
         """ )
+    print("----------------------------------------------------------------------------------------------------")
     print("README:")
     print("This script has the following functions:")
     print(
@@ -15,9 +15,10 @@ class InteractionBasedLearning:
     (2) BDA(): this function runs through Backward Dropping Algorithm once
     (3) InteractionLearning(): this function runs many rounds of BDA and 
                                finalize the variables selcted according to I-score
-    """
-    )
-    print("---------------------------------------------------------------------")
+    """ )
+    print("ACKNOWLEDGEMENT:")
+    print("This script is not-fot-profit and it is a production of my research \nduring my time at Columbia University.")
+    print("----------------------------------------------------------------------------------------------------")
 
     # Define function
     def iscore(X, y):
