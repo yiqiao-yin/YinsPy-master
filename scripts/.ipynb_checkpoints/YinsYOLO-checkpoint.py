@@ -238,3 +238,155 @@ class YinsYOLO:
                 break
 
         # End of function
+        
+    def Combat_Surveillance(
+        windowName = "Yin's AI Surveillance",
+        whatObject = ['cell phone', 'person'], 
+        useAdvancedYOLO = True, confidence=0.1, 
+        whichCam = 0, useAlert=False, verbose=False):
+        
+        """
+        # READ:
+        # Object detection webcam example using tiny yolo
+        # Usage: python object_detection_webcam_yolov3_tiny.py
+        """
+
+        # Import necessary packages
+        import cvlib as cv
+        from cvlib.object_detection import draw_bbox
+        import cv2
+
+        # Check out laptop cam:
+        # 0 is the first camera (on laptop) 
+        # 1 is the second camera (ex. I have a usb cam connected to the laptop that is higher resolution)
+        # and then you can do 2, 3, ... if you have installed more cameras.
+        # webcam = cv2.VideoCapture(1)
+        # print(f'Camera resolution is {webcam.get(3)} by {webcam.get(4)}.')
+
+        # SUPPORT FUNCTIONS:
+        # Setup *alert()* Function
+        import time
+        from IPython.core.magics.execution import _format_time
+        from IPython.display import display as d
+        from IPython.display import Audio
+        from IPython.core.display import HTML
+        import numpy as np
+        import logging as log
+
+        def alert():
+            """ makes sound on client using javascript (works with remote server) """      
+            framerate = 44100
+            duration  = 1
+            freq      = 300
+            t         = np.linspace(0, duration, framerate*duration)
+            data      = np.sin(2*np.pi*freq*t)
+            d(Audio(data, rate=framerate, autoplay=True))
+
+        # The following code will start a new window with live camera feed from your laptop. 
+        # The notebook will print out a long list of results, with objects detected or not. 
+        # To shut it down, make sure current window is in the camera feed and press 'q'. 
+        
+        def drawBox(img, bbox, labels, confidence, colors=None, write_conf=False, whatObject=whatObject):
+            classes = None
+            COLORS = np.random.uniform(0, 255, size=(80, 3))
+
+            if classes is None:
+                classes = [
+                    'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat',
+                    'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird',
+                    'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe',
+                    'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis',
+                    'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard',
+                    'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife',
+                    'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot',
+                    'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed',
+                    'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+                    'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
+                    'scissors', 'teddy bear', 'hair drier', 'toothbrush']
+
+            placeholder = []
+            for eachItem in whatObject:
+                if eachItem in labels:
+                    placeholder.append(eachItem)
+                    
+            
+            for i, label in enumerate(placeholder):
+                if colors is None:
+                    color = COLORS[classes.index(label)]
+                else:
+                    color = colors[classes.index(label)]
+                if write_conf:
+                    label += ' ' + str(format(confidence[i] * 100, '.2f')) + '%'
+                cv2.rectangle(img, (bbox[i][0],bbox[i][1]), (bbox[i][2],bbox[i][3]), color, 1)
+                cv2.rectangle(img, 
+                              (round((bbox[i][3]-bbox[i][1])*0.2+bbox[i][1]), bbox[i][0]), 
+                              (round((bbox[i][3]-bbox[i][1])*0.8+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.4+bbox[i][0])), color, 2)
+                start_point_1 = (round((bbox[i][3]-bbox[i][1])*0.5+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.3+bbox[i][0]))
+                end_point_1   = (round((bbox[i][3]-bbox[i][1])*0.1+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.9+bbox[i][0]))
+                cv2.line(img, start_point_1, end_point_1, (0,255,0), 1)
+                start_point_2 = (round((bbox[i][3]-bbox[i][1])*0.5+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.3+bbox[i][0]))
+                end_point_2   = (round((bbox[i][3]-bbox[i][1])*0.9+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.9+bbox[i][0]))
+                cv2.line(img, start_point_2, end_point_2, (0,255,0), 1)
+                cv2.putText(img, label, (bbox[i][0],bbox[i][1]-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                cv2.putText(img, "center", start_point_1, cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                cv2.circle(img, start_point_1, 30, color, 1)
+                start_point_ht = (round((bbox[i][3]-bbox[i][1])*0.5+bbox[i][1]), round((bbox[i][2]-bbox[i][0])*0.5+bbox[i][0]))
+                cv2.putText(img, "heart", start_point_ht, cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                cv2.circle(img, start_point_1, 30, color, 1)
+                cv2.putText(img, "elbow", end_point_1, cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                cv2.circle(img, end_point_1, 30, color, 1)
+                cv2.putText(img, "elbow", end_point_2, cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                cv2.circle(img, end_point_2, 30, color, 1)
+
+            return img
+
+        # Open Camera
+        webcam = cv2.VideoCapture(whichCam)
+        if not webcam.isOpened():
+            print("Could not open webcam")
+            exit()
+
+        # Loop through frames
+        while webcam.isOpened():
+
+            # Read frame from webcam 
+            status, frame = webcam.read()
+            if not status:
+                break
+
+            # Apply object detection
+            # 80 common objects: https://github.com/arunponnusamy/object-detection-opencv/blob/master/yolov3.txt
+            if useAdvancedYOLO:
+                bbox, label, conf = cv.detect_common_objects(frame, confidence=confidence, model='yolov3') # this is very slow
+            else:
+                bbox, label, conf = cv.detect_common_objects(frame, confidence=confidence, model='yolov3-tiny')
+            
+            # Print Comment
+            if verbose:
+                print(bbox)
+                print(label)
+                print(conf)
+            
+            # Output
+            # print(bbox, label, conf)
+            # Set Alert (if see a knife)
+            tmp = label
+            for i in tmp:
+                if i == whatObject:
+                    if useAlert:
+                        alert()
+
+            # Draw bounding box over detected objects
+            # We take output from *cv.detect_common_objects* to print them out on videos
+            # by using *draw_bbox()*
+            # sample: drawBox(img, bbox, labels, confidence, colors=None, write_conf=False)
+            out = drawBox(img=frame, bbox=bbox, labels=label, confidence=conf, write_conf=True, whatObject=whatObject)
+
+            # Display output
+            cv2.imshow(windowName, out)
+
+            # press "Q" to stop
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        # End of function
