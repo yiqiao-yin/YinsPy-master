@@ -583,3 +583,85 @@ class YinsYOLO:
                 break
 
         # End of function
+        
+    # Begin function
+    def MaskDetector():
+        # Credits: I sourced the code from the following:
+        # author: Arun Ponnusamy
+        # website: https://www.arunponnusamy.com
+        # github: https://github.com/arunponnusamy/cvlib/blob/a21fc330cddb5e06dd82e0acf77e934ae413adee/cvlib/face_detection.py
+
+        # face detection webcam example
+        # usage: python face_detection_webcam.py 
+
+        # import necessary packages
+        import numpy as np
+        import cvlib as cv
+        import cv2
+
+        # open webcam
+        webcam = cv2.VideoCapture(0)
+
+        if not webcam.isOpened():
+            print("Could not open webcam")
+            exit()
+
+
+        # loop through frames
+        while webcam.isOpened():
+
+            # read frame from webcam 
+            status, frame = webcam.read()
+
+            if not status:
+                print("Could not read frame")
+                exit()
+
+            # apply face detection
+            face, confidence = cv.detect_face(frame)
+            #frameCopy = frame
+            #frameCopy = np.array(frame)[face[0][1]:face[0][0]][face[0][3]:face[0][2]]
+            cropped = frame
+            imMEAN = np.mean(cropped)
+            gray = cv2.cvtColor(cropped, cv2.COLOR_BGR2GRAY)
+            grMEAN = np.mean(gray)
+            # thresholds: 
+            # np.mean(imMEAN), np.mean(grMEAN), np.std(imMEAN), np.std(grMEAN)
+            # (132.47409459264787, 133.2298545294259, 41.95549425306896, 42.26304526011298)
+            if imMEAN < 110:
+                maskLabel = "Mask On"
+                print('imMEAN=', imMEAN,'; label:', maskLabel)
+            else:
+                maskLabel = "No Mask"
+                print('imMEAN=', imMEAN, '; label:', maskLabel)
+                
+            print(face)
+            print(confidence)
+
+            # loop through detected faces
+            for idx, f in enumerate(face):
+
+                (startX, startY) = f[0], f[1]
+                (endX, endY) = f[2], f[3]
+
+                # draw rectangle over face
+                cv2.rectangle(frame, (startX,startY), (endX,endY), (0,255,0), 2)
+
+                text = "Face detected:" + "{:.2f}%".format(confidence[idx] * 100) + "\n; Any mask? " + maskLabel + '; imMEAN=' + str(imMEAN)
+
+                Y = startY - 10 if startY - 10 > 10 else startY + 10
+
+                # write confidence percentage on top of face rectangle
+                cv2.putText(frame, text, (startX,Y), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                            (0,255,0), 2)
+
+            # display output
+            cv2.imshow("Real-time face detection", frame)
+
+            # press "Q" to stop
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        # release resources
+        webcam.release()
+        cv2.destroyAllWindows()
