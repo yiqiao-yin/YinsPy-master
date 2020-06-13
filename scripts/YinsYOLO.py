@@ -628,7 +628,7 @@ class YinsYOLO:
             # thresholds: 
             # np.mean(imMEAN), np.mean(grMEAN), np.std(imMEAN), np.std(grMEAN)
             # (132.47409459264787, 133.2298545294259, 41.95549425306896, 42.26304526011298)
-            if imMEAN < 110:
+            if imMEAN < 132:
                 maskLabel = "Mask On"
                 print('imMEAN=', imMEAN,'; label:', maskLabel)
             else:
@@ -646,14 +646,16 @@ class YinsYOLO:
 
                 # draw rectangle over face
                 cv2.rectangle(frame, (startX,startY), (endX,endY), (0,255,0), 2)
-
-                text = "Face detected:" + "{:.2f}%".format(confidence[idx] * 100) + "\n; Any mask? " + maskLabel + '; imMEAN=' + str(imMEAN)
-
+                text = "Face detected: " + "{:.2f}%".format(confidence[idx] * 100)
+                if maskLabel == 'Mask On':
+                    textM = "Any mask? " + maskLabel + '; Confidence=' + str(round(imMEAN/132,2))
+                else:
+                    textM = "Any mask? " + maskLabel + '; Confidence=' + str(round(1-(imMEAN/132-1),2))
                 Y = startY - 10 if startY - 10 > 10 else startY + 10
 
                 # write confidence percentage on top of face rectangle
-                cv2.putText(frame, text, (startX,Y), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                            (0,255,0), 2)
+                cv2.putText(frame, text, (startX,Y-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+                cv2.putText(frame, textM, (startX,Y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
 
             # display output
             cv2.imshow("Real-time face detection", frame)
