@@ -860,7 +860,8 @@ class YinsYOLO:
 
             # apply face detection
             face, confidence = cv.detect_face(frame)
-            edges = cv2.Canny(frame, 100,200)
+            edges = cv2.Canny(frame, 100, 200)
+            
 
             print(face)
             print(confidence)
@@ -1002,6 +1003,126 @@ class YinsYOLO:
 
                 # write confidence percentage on top of face rectangle
                 cv2.putText(img, text, (startX,Y-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+
+            
+            def checkList(confidence):
+                if not confidence:
+                    return True
+                else:
+                    return False
+                
+            # display output
+            if checkList(confidence):
+                cv2.imshow("Real-time Edge Detection", frame)
+            else:
+                cv2.imshow("Real-time Edge Detection", img)
+
+            # press "Q" to stop
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        # release resources
+        webcam.release()
+        cv2.destroyAllWindows()
+        
+        
+        
+    # Begin function
+    def HarrisFeatureFaceDetector():
+        # Credits: I sourced the code from the following:
+        # OpenCV: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html#additional-resources
+
+        # import necessary packages
+        import numpy as np
+        import cvlib as cv
+        import cv2
+        from matplotlib import pyplot as plt
+
+        # open webcam
+        webcam = cv2.VideoCapture(0)
+
+        if not webcam.isOpened():
+            print("Could not open webcam")
+            exit()
+
+        # loop through frames
+        while webcam.isOpened():
+
+            # read frame from webcam 
+            status, frame = webcam.read()
+
+            if not status:
+                print("Could not read frame")
+                exit()
+
+            # apply face detection
+            face, confidence = cv.detect_face(frame)
+            edges = cv2.Canny(frame, 100, 200)
+
+            print(face)
+            print(confidence)
+            print("----")
+            print(edges)
+            print(edges.shape)
+            print("----")
+            print("----")
+            print("----")
+            print("----")
+            print("Edge image...")
+            img = frame
+            plt.subplot(121),plt.imshow(img,cmap = 'gray')
+            plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+            plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+            plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+            plt.show()
+
+            # loop through detected faces
+            for idx, f in enumerate(face):
+
+                (startX, startY) = f[0], f[1]
+                (endX, endY) = f[2], f[3]
+
+                # draw rectangle over face
+                #cv2.rectangle(frame, (startX,startY), (endX,endY), (0,255,0), 2)
+                text = "Face detected: " + "{:.2f}%".format(confidence[idx] * 100)
+                Y = startY - 10 if startY - 10 > 10 else startY + 10
+
+                # write confidence percentage on top of face rectangle
+                cv2.putText(frame, text, (startX,Y-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+                
+            # loop through detected faces
+            for idx, f in enumerate(face):
+
+                (startX, startY) = f[0], f[1]
+                (endX, endY) = f[2], f[3]
+                # [[427, 102, 616, 375]]
+
+                # draw rectangle over face
+                # cv2.rectangle(edges, (startX,startY), (endX,endY), (255,255,255), 2)
+                text = "Face detected: " + "{:.2f}%".format(confidence[idx] * 100) + "; Edges marked!"
+                Y = startY - 10 if startY - 10 > 10 else startY + 10
+
+                # write confidence percentage on top of face rectangle
+                cv2.putText(edges, text, (startX,Y-20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
+                
+                # Harris Corner Detector
+                dst = cv2.cornerHarris(edges,2,3,0.001)
+                print("dst here:")
+                print(dst)
+                print(dst.shape)
+                print(type(dst))
+
+                # result is dilated for marking the corners, not important
+                dst = cv2.dilate(dst,None)
+
+                # limit output of Harris Corner Detector to be within human face rectangle
+                dst[:startY, :]=0
+                dst[endY::, :]=0
+                dst[:, :startX]=0
+                dst[:, endX::]=0
+                
+                # Threshold for an optimal value, it may vary depending on the image.
+                img[dst>0.01*dst.max()]=[0,255,0]
 
             
             def checkList(confidence):
