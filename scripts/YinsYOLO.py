@@ -1058,6 +1058,8 @@ class YinsYOLO:
             # apply face detection
             face, confidence = cv.detect_face(frame)
             edges = cv2.Canny(frame, 100, 200)
+            face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+            eye_cascade = cv2.CascadeClassifier("haarcascade_eye.xml")
 
             print(face)
             print(confidence)
