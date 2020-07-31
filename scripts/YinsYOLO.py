@@ -9,7 +9,7 @@ class YinsYOLO:
     """ )
     print("-----------------------------------------------------")
     
-    def Personal_AI_Surveillance(whatObject = 'knife', useAdvancedYOLO = True, confidence=0.1, whichCam = 0, verbose=False):
+    def Personal_AI_Surveillance(whatObject = 'pistol', useAdvancedYOLO = True, confidence=0.1, whichCam = 0, verbose=False):
         
         """
         # READ:
