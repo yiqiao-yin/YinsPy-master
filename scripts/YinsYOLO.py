@@ -544,6 +544,7 @@ class YinsYOLO:
 
             # Read frame from webcam 
             status, frame = webcam.read()
+            frameCopy = frame
             if not status:
                 break
 
@@ -577,6 +578,7 @@ class YinsYOLO:
 
             # Display output
             cv2.imshow(windowName, out)
+            cv2.imshow(windowName, frameCopy)
 
             # press "Q" to stop
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -796,6 +798,7 @@ class YinsYOLO:
             cap = cv2.VideoCapture(0)
             while(cap.isOpened()):
                 ret, img = cap.read()
+                frame = img
                 img = np.flip(img,axis=1)
 
                 # Converting image to HSV color space.
@@ -818,7 +821,10 @@ class YinsYOLO:
 
                 # Replacing pixels corresponding to cloak with the background pixels.
                 img[np.where(mask==255)] = background[np.where(mask==255)]
-                cv2.imshow('Display',img)
+                cv2.imshow('Stealth Mode Initiated',img)
+                cv2.imshow("Source Video", frame)
+                
+                # Kill screen
                 k = cv2.waitKey(1)
                 if k == 27:
                     cap.release()
@@ -1139,8 +1145,10 @@ class YinsYOLO:
                 
             # display output
             if checkList(confidence):
-                cv2.imshow("Real-time Edge Detection", frame)
+                cv2.imshow("Real-time Live Cam", frame)
+                cv2.imshow("Real-time Edge Detection", img)
             else:
+                cv2.imshow("Real-time Live Cam", frame)
                 cv2.imshow("Real-time Edge Detection", img)
 
             # press "Q" to stop
