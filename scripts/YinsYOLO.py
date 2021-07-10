@@ -766,7 +766,7 @@ class YinsYOLO:
         cv2.destroyAllWindows()
         
     # Define function
-    def StealthMode():
+    def StealthMode(whichCam=2):
         # library
         import cv2
         import numpy as np
@@ -776,7 +776,7 @@ class YinsYOLO:
             print("""
                       Recording Background .....................
                 """)
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(whichCam)
             time.sleep(1)
             background=0
             for i in range(30):
@@ -795,7 +795,7 @@ class YinsYOLO:
             print("""
                      Get ready to become invisible .....................
                 """)
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(whichCam)
             while(cap.isOpened()):
                 ret, img = cap.read()
                 frame = img
@@ -940,7 +940,7 @@ class YinsYOLO:
         cv2.destroyAllWindows()
         
     # Begin function
-    def FaceCornerDetector():
+    def FaceCornerDetector(whichCam = 0,):
         # Credits: I sourced the code from the following:
         # OpenCV: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_features_harris/py_features_harris.html
 
@@ -951,7 +951,7 @@ class YinsYOLO:
         from matplotlib import pyplot as plt
 
         # open webcam
-        webcam = cv2.VideoCapture(0)
+        webcam = cv2.VideoCapture(whichCam)
 
         if not webcam.isOpened():
             print("Could not open webcam")
