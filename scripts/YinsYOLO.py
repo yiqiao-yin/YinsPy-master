@@ -675,7 +675,7 @@ class YinsYOLO:
         cv2.destroyAllWindows()
         
     # Begin function
-    def StarterMode():
+    def StarterMode(whichCam=2):
         # Credits: I sourced the code from the following:
         # author: Arun Ponnusamy
         # website: https://www.arunponnusamy.com
@@ -691,7 +691,7 @@ class YinsYOLO:
         import cv2
 
         # open webcam
-        webcam = cv2.VideoCapture(0)
+        webcam = cv2.VideoCapture(whichCam)
 
         if not webcam.isOpened():
             print("Could not open webcam")
@@ -710,8 +710,8 @@ class YinsYOLO:
             # apply face detection
             face, confidence = cv.detect_face(frame)
                 
-            print(face)
-            print(confidence)
+#             print(face)
+#             print(confidence)
 
             # loop through detected faces
             for idx, f in enumerate(face):
