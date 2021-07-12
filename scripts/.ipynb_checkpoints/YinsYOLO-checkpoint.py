@@ -708,6 +708,11 @@ class YinsYOLO:
                 exit()
 
             # apply face detection
+            # upgrade 1: 
+            # there is a build-in CNN
+            # that looks for human face inside of the frame
+            # frame is coming from camera live feed
+            # low-level AI here
             face, confidence = cv.detect_face(frame)
                 
 #             print(face)
@@ -741,20 +746,26 @@ class YinsYOLO:
                 cv2.putText(frame, textDate, (startXleft,endY+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
 
                 # write market: SPY
-                import yfinance as yf
+                import yfinance as yf # yahoo finance | same with quantmod(), i.e. in quantmod() the default API is yahoo finance
                 import pandas as pd
                 from datetime import date
                 today = date.today()
                 start_date = pd.to_datetime('2013-01-01')
                 end_date = pd.to_datetime(str(today))
-                SPY = yf.download("SPY", start_date, end_date)
-                DIA = yf.download("DIA", start_date, end_date)
+                SPY = yf.download("SPY", start_date, end_date) # live data
+                DIA = yf.download("DIA", start_date, end_date) # live data
                 textSPY = "S&P 500 Last Day Close: " + str(round(SPY.iloc[len(SPY)-1][3], 2)) + "; Volume: " + str(round(SPY.iloc[len(SPY)-1][5], 2))
                 textDIA = "Dow Jones Index Last Day Close: " + str(round(DIA.iloc[len(DIA)-1][3], 2)) + "; Volume: " + str(round(DIA.iloc[len(DIA)-1][5], 2))
+                # backend
+                # do more (in backend) in machine learning
+                # do RNN
+                # do prediction
+                # I wake up today, my google glass automatically tell me today's closing price within 7 bucks error margin
                 cv2.putText(frame, textSPY, (startXleft,endY+30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
                 cv2.putText(frame, textDIA, (startXleft,endY+45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
 
             # display output
+            # this is front-end
             cv2.imshow("Starter Mode Initiation", frame)
             
             # press "Q" to stop
@@ -767,7 +778,7 @@ class YinsYOLO:
         
     # Define function
     def StealthMode(whichCam=2):
-        # library
+        # library: pip install in command line or !pip install in notebook
         import cv2
         import numpy as np
         import time
@@ -776,7 +787,7 @@ class YinsYOLO:
             print("""
                       Recording Background .....................
                 """)
-            cap = cv2.VideoCapture(whichCam)
+            cap = cv2.VideoCapture(whichCam) # starts with 0, 1, 2, ... always check to make sure it's the right camera
             time.sleep(1)
             background=0
             for i in range(30):
@@ -801,12 +812,17 @@ class YinsYOLO:
                 frame = img
                 img = np.flip(img,axis=1)
 
-                # Converting image to HSV color space.
+                # Converting image to HSV color space. # this is to ensure we have a consistent color pallete
                 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
                 value = (35, 35)
 
-                blurred = cv2.GaussianBlur(hsv, value,0)
+                blurred = cv2.GaussianBlur(hsv, value,0) # this is to make the graph smoother but this does not reduce resolution (in case you can tell with human eyes)
 
+                # Create masks:
+                # note: color is hard-coded; and it does not take location into consideration
+                #       anywhere in the picture frame, as long as the color matches the pre-defined
+                #       color threshold, it will get rendered and masked
+                # remark: this is an area where AI can step in and fix it
                 lower_red = np.array([0,120,70])
                 upper_red = np.array([10,255,255])
                 mask1 = cv2.inRange(hsv,lower_red,upper_red)
@@ -816,11 +832,12 @@ class YinsYOLO:
                 mask2 = cv2.inRange(hsv,lower_red,upper_red)
 
                 # Addition of the two masks to generate the final mask.
-                mask = mask1+mask2
-                mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5,5),np.uint8))
+                mask = mask1+mask2 # we want to cover as many different types of "red" as we possibly can
+                mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5,5),np.uint8)) # this is to remove noise but we maintain resolution level
 
                 # Replacing pixels corresponding to cloak with the background pixels.
-                img[np.where(mask==255)] = background[np.where(mask==255)]
+                # np.where() equivalent as which() in R
+                img[np.where(mask==255)] = background[np.where(mask==255)] # masking effect comes in here, and it will replace the particular location detected with values in the pixesl from background (which is pre-recorded in the previous function)
                 cv2.imshow('Stealth Mode Initiated',img)
                 cv2.imshow("Source Video", frame)
                 
