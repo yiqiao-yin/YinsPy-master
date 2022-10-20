@@ -15,10 +15,10 @@ class InteractionBasedLearning:
     (1) iscore(): this function computes the I-score of selected X at predicting Y
     (2) BDA(): this function runs through Backward Dropping Algorithm once
     (3) InteractionLearning(): this function runs many rounds of BDA and 
-                               finalize the variables selcted according to I-score
+                               finalize the variables selected according to I-score
     """ )
     print("ACKNOWLEDGEMENT:")
-    print("This script is not-fot-profit and it is a production of my research \nduring my time at Columbia University.")
+    print("This script is not-fot-profit and it is a production of my research during my time at Columbia University.")
     print("----------------------------------------------------------------------------------------------------")
 
     # Define function
